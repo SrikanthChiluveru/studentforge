@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Forge</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-white text-gray-900 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-black text-white py-4 px-8 flex justify-between items-center sticky top-0 z-50">
+        <div class="text-xl font-bold cursor-pointer" onclick="location.reload()">Student Forge</div>
+        <ul class="flex space-x-6 text-sm">
+            <li><a href="index.html" class="hover:text-gray-300" onclick="location.reload()">Home</a></li>
+            <li><a href="learnwithforge.html" class="hover:text-gray-300">Learn with Forge</a></li>
+            <li><a href="buildwithforge.html" class="hover:text-gray-300">Build with Forge</a></li>
+            <li><a href="joinwithforge.html" class="hover:text-gray-300">Join with Forge</a></li>
+            <li><a href="gallery.html" class="hover:text-gray-300">Gallery</a></li>
+            <li><a href="applynow.html" class="hover:text-gray-300">Apply Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-900 text-white text-center py-20 px-6">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Empowering Students.<br>Building Startups. Forging Futures.</h1>
+        <p class="text-lg mb-6">We mentor, build, and collaborate — with students and startups alike.</p>
+        <div class="flex justify-center space-x-4">
+            <button class="bg-white text-blue-900 px-4 py-2 rounded font-semibold" onclick="window.location.href='learnwithforge.html#popular-courses'">Explore Courses</button>
+            <button class="bg-blue-900 text-white px-4 py-2 rounded font-semibold border border-white">Get Branding Help</button>
+            <button class="bg-white text-blue-900 px-4 py-2 rounded font-semibold" onclick="window.location.href='joinwithforge.html'">Join the Movement</button>
+        </div>
+    </section>
+
+    <!-- Ecosystem Section -->
+    <section class="py-12 px-6 text-center">
+        <h2 class="text-2xl font-semibold mb-6">Our Ecosystem</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <div class="text-4xl cursor-pointer" onclick="window.location.href='learnwithforge.html'">🎓</div>
+                <h3 class="font-bold mt-2 cursor-pointer" onclick="window.location.href='learnwithforge.html'">Learn with Forge</h3>
+                <p>Career Courses for Students</p>
+            </div>
+            <div>
+                <div class="text-4xl cursor-pointer" onclick="window.location.href='buildwithforge.html'">💻</div>
+                <h3 class="font-bold mt-2 cursor-pointer" onclick="window.location.href='buildwithforge.html'">Build with Forge</h3>
+                <p>Branding & Tech Service</p>
+            </div>
+            <div>
+                <div class="text-4xl cursor-pointer" onclick="window.location.href='joinwithforge.html'">🤝</div>
+                <h3 class="font-bold mt-2 cursor-pointer" onclick="window.location.href='joinwithforge.html'">Join with Forge</h3>
+                <p>Events, Internships, Partnerships</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="bg-gray-100 py-12 px-6 text-center">
+        <h2 class="text-2xl font-semibold mb-6">Why Choose Us?</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+            <p>✔ Real-time Projects</p>
+            <p>✔ Industry Mentors</p>
+            <p>✔ Internship & Job Support</p>
+            <p>✔ Efficient & Clear</p>
+            <p>✔ Affordable & Practical</p>
+        </div>
+    </section>
+
+    <!-- Student Success Stories -->
+    <section class="py-12 px-6 text-center">
+        <h2 class="text-2xl font-semibold mb-6">Student Success Stories</h2>
+        <div class="flex justify-center space-x-8">
+            <div>
+                <img src="assets/sundar.jpg" class="rounded-full mx-auto w-24 h-24 object-cover" alt="student1">
+                <p class="mt-2 font-semibold">"Inspiration, success."</p>
+            </div>
+            <div>
+                <img src="assets/virat.jpg" class="rounded-full mx-auto w-24 h-24 object-cover" alt="student2">
+                <p class="mt-2 font-semibold">"Insightful expertise."</p>
+            </div>
+            <div>
+                <img src="assets/musk.jpg" class="rounded-full mx-auto w-24 h-24 object-cover" alt="student3">
+                <p class="mt-2 font-semibold">"Inspires future paths."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Preview -->
+    <section class="bg-gray-100 py-12 px-6 text-center">
+        <h2 class="text-2xl font-semibold mb-6">Gallery Preview</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
+            <img src="assets/office.jpg" alt="gallery1" class="rounded w-72 h-48 object-cover">
+            <img src="assets/colleague.jpg" alt="gallery2" class="rounded w-72 h-48 object-cover">
+            <img src="assets/speech.jpg" alt="gallery3" class="rounded w-72 h-48 object-cover">
+        </div>
+    </section>
+
+</body>
+
+</html>

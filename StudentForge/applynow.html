@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apply Now | Student Forge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-black text-white py-4 px-8 flex justify-between items-center sticky top-0 z-50">
+    <div class="text-xl font-bold cursor-pointer" onclick="window.location.href='index.html'">Student Forge</div>
+    <ul class="flex space-x-6 text-sm">
+      <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+      <li><a href="learn.html" class="hover:text-gray-300">Learn with Forge</a></li>
+      <li><a href="build.html" class="hover:text-gray-300">Build with Forge</a></li>
+      <li><a href="join.html" class="hover:text-gray-300">Join Forge</a></li>
+      <li><a href="gallery.html" class="hover:text-gray-300">Gallery</a></li>
+      <li><a href="applynow.html" class="hover:text-gray-300">Apply Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- Apply Now Header -->
+  <section class="bg-blue-900 text-white text-center py-16 px-4">
+    <h1 class="text-4xl font-bold mb-3">Apply to Student Forge</h1>
+    <p class="max-w-xl mx-auto text-lg">Join our dynamic community of learners, builders, and leaders.</p>
+  </section>
+
+  <!-- Application Form -->
+  <section class="bg-white py-12 px-6 md:px-20">
+    <div class="max-w-3xl mx-auto bg-gray-100 p-8 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-6 text-center">Application Form</h2>
+      <form action="https://formspree.io/f/mqkryobv" method="POST" class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium mb-1">Full Name</label>
+          <input type="text" name="name" required class="w-full p-3 rounded border border-gray-300" placeholder="Your Name"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Email</label>
+          <input type="email" name="email" required class="w-full p-3 rounded border border-gray-300" placeholder="you@example.com"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Interested In</label>
+          <select name="interest" required class="w-full p-3 rounded border border-gray-300">
+            <option value="" disabled selected>Select one</option>
+            <option value="learning">Learning Courses</option>
+            <option value="building">Startup Building</option>
+            <option value="mentoring">Mentorship & Internships</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Tell us why you want to join</label>
+          <textarea name="message" rows="4" required class="w-full p-3 rounded border border-gray-300" placeholder="Your message..."></textarea>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="bg-blue-700 text-white px-6 py-3 rounded hover:bg-blue-800">
+            Submit Application
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="text-center py-12 bg-blue-900 text-white">
+    <h2 class="text-xl font-semibold mb-4">Need Help?</h2>
+    <p>Contact our team via <a href="mailto:support@studentforge.org" class="underline text-blue-300">support@studentforge.org</a></p>
+  </section>
+
+</body>
+</html>

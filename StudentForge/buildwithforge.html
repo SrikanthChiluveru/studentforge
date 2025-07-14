@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Build with Forge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-black text-white py-4 px-8 flex justify-between items-center sticky top-0 z-50">
+    <div class="text-xl font-bold cursor-pointer" onclick="window.location.href='index.html'">Student Forge</div>
+    <ul class="flex space-x-6 text-sm">
+      <li><a href="../index.html" class="hover:text-gray-300">Home</a></li>
+      <li><a href="learnwithforge.html" class="hover:text-gray-300">Learn with Forge</a></li>
+      <li><a href="buildwithforge.html" class="hover:text-gray-300">Build with Forge</a></li>
+      <li><a href="joinwithforge.html" class="hover:text-gray-300">Join with Forge</a></li>
+      <li><a href="gallery.html" class="hover:text-gray-300">Gallery</a></li>
+      <li><a href="applynow.html" class="hover:text-gray-300">Apply Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- Section Header -->
+  <section class="bg-blue-900 text-white py-16 px-4 text-center">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">Build with Forge</h1>
+    <p class="text-lg max-w-xl mx-auto">
+      Turn your ideas into reality with our supportive and resourceful builders community
+    </p>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-12 px-6 md:px-12 bg-white text-center">
+    <h2 class="text-2xl font-bold mb-8">How It Works</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+        <div class="text-3xl mb-4">💡</div>
+        <h3 class="font-semibold text-lg">Share Your Idea</h3>
+        <p class="text-gray-600 mt-2">Pitch your projects to our community</p>
+      </div>
+      <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+        <div class="text-3xl mb-4">🛠️</div>
+        <h3 class="font-semibold text-lg">Collaborate & Build</h3>
+        <p class="text-gray-600 mt-2">Work with peers and mentors to develop your project</p>
+      </div>
+      <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+        <div class="text-3xl mb-4">🚀</div>
+        <h3 class="font-semibold text-lg">Launch & Showcase</h3>
+        <p class="text-gray-600 mt-2">Bring your product to life and share it with the world</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects From Our Community -->
+  <section class="py-12 px-6 md:px-12 bg-gray-50">
+    <h2 class="text-2xl font-bold mb-8 text-center">Projects From Our Community</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Project 1 -->
+      <div class="bg-white rounded-lg overflow-hidden shadow-md flex flex-col items-center text-center">
+        <img src="assets/studybuddy.jpg" alt="StudyBuddy" class="w-full h-48 object-cover">
+        <div class="p-5 w-full flex flex-col items-center">
+          <h3 class="font-semibold text-lg">StudyBuddy</h3>
+          <p class="text-gray-600 mt-1">An app for students to find study partners</p>
+          <button class="mt-4 bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800">View Project</button>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="bg-white rounded-lg overflow-hidden shadow-md flex flex-col items-center text-center">
+        <img src="assets/ecohop.jpg" alt="EcoShop" class="w-full h-48 object-cover">
+        <div class="p-5 w-full flex flex-col items-center">
+          <h3 class="font-semibold text-lg">EcoShop</h3>
+          <p class="text-gray-600 mt-1">A marketplace for sustainable products</p>
+          <button class="mt-4 bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800">View Project</button>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="bg-white rounded-lg overflow-hidden shadow-md flex flex-col items-center text-center">
+        <img src="assets/eventvista.jpg" alt="EventVista" class="w-full h-48 object-cover">
+        <div class="p-5 w-full flex flex-col items-center">
+          <h3 class="font-semibold text-lg">EventVista</h3>
+          <p class="text-gray-600 mt-1">Event planning simplified</p>
+          <button class="mt-4 bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800">View Project</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-blue-900 text-white text-center py-12">
+    <h2 class="text-2xl font-semibold mb-4">Ready to start building?</h2>
+    <button class="bg-white text-blue-900 px-6 py-3 rounded font-semibold hover:bg-gray-200">
+      Join the Community
+    </button>
+  </section>
+<script>
+    window.addEventListener('load', function() {
+      if (performance.navigation.type === 1) {
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+</body>
+</html>
