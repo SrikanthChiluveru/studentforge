@@ -1,85 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Join with Forge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events & Collaborations | Student Forge</title>
+  <link rel="icon" type="image/png" href="assets/temp_logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .nav-zoom {
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s, background 0.25s;
+    }
+
+    .nav-zoom:hover,
+    .nav-zoom.active {
+      transform: scale(1.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+      background: transparent;
+      color: #fff;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      z-index: 60;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 100%;
+      background: #fff;
+      margin: 4px 0;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .mobile-nav {
+      display: none;
+    }
+
+    .mobile-nav.open {
+      display: block;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100vw;
+      background: #111;
+      z-index: 55;
+    }
+
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none !important;
+      }
+
+      .hamburger {
+        display: flex !important;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-nav {
+        display: none !important;
+      }
+
+      .hamburger {
+        display: none !important;
+      }
+    }
+  </style>
 </head>
+
 <body class="bg-gray-100 text-gray-800">
 
   <!-- Navbar -->
-  <nav class="bg-black text-white py-4 px-8 flex justify-between items-center sticky top-0 z-50">
-    <div class="text-xl font-bold cursor-pointer" onclick="window.location.href='index.html'">Student Forge</div>
-    <ul class="flex space-x-6 text-sm">
-      <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
-      <li><a href="learnwithforge.html" class="hover:text-gray-300">Learn with Forge</a></li>
-      <li><a href="buildwithforge.html" class="hover:text-gray-300">Build with Forge</a></li>
-      <li><a href="joinwithforge.html" class="hover:text-gray-300">Join with Forge</a></li>
-      <li><a href="gallery.html" class="hover:text-gray-300">Gallery</a></li>
-      <li><a href="applynow.html" class="hover:text-gray-300">Apply Now</a></li>
+  <nav class="bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <img src="assets/temp_logo.png" alt="Student Forge Logo" class="h-8 w-8 mr-2 cursor-pointer"
+        onclick="window.location.href='index.html'">
+      <span class="text-xl font-bold cursor-pointer mb-2 md:mb-0"
+        onclick="window.location.href='index.html'">Student Forge</span>
+    </div>
+    <!-- Hamburger Icon -->
+    <div class="hamburger md:hidden" id="hamburger-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <!-- Desktop Navbar -->
+    <ul class="desktop-nav flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 text-sm w-full md:w-auto">
+      <li><a href="index.html" class="nav-zoom block text-center">Home</a></li>
+      <li><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
+      <li><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
+      <li><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
+      <li><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
+      <li><a href="applynow.html" class="nav-zoom block text-center">Apply Now</a></li>
+    </ul>
+    <!-- Mobile Navbar -->
+    <ul class="mobile-nav absolute left-0 w-full bg-black text-white text-sm px-4 py-4" id="mobile-nav">
+      <li class="mb-2"><a href="index.html" class="nav-zoom block text-center">Home</a></li>
+      <li class="mb-2"><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
+      <li class="mb-2"><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
+      <li class="mb-2"><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
+      <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
+      <li><a href="applynow.html" class="nav-zoom block text-center">Apply Now</a></li>
     </ul>
   </nav>
 
-  <!-- Header Section -->
-  <section class="bg-blue-900 text-white py-16 px-4 text-center">
-    <h1 class="text-3xl md:text-4xl font-bold mb-4">Join with Forge</h1>
-    <p class="text-lg max-w-xl mx-auto">Become part of our vibrant student community for builders and innovators</p>
-  </section>
-
-  <!-- Why Join Us -->
-  <section class="py-12 px-6 md:px-12 bg-white text-center">
-    <h2 class="text-2xl font-bold mb-8">Why Join Us?</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-        <div class="text-3xl mb-4">👥</div>
-        <h3 class="font-semibold text-lg">Collaborative Environment</h3>
-        <p class="text-gray-600 mt-2">Engage with peers in a supportive atmosphere</p>
-      </div>
-      <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-        <div class="text-3xl mb-4">⚙️</div>
-        <h3 class="font-semibold text-lg">Resource Access</h3>
-        <p class="text-gray-600 mt-2">Utilize tools and materials for your projects</p>
-      </div>
-      <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-        <div class="text-3xl mb-4">📅</div>
-        <h3 class="font-semibold text-lg">Events & Workshops</h3>
-        <p class="text-gray-600 mt-2">Participate in exclusive learning opportunities</p>
+  <!-- Section Header -->
+<section class="text-white py-10 md:py-16 px-4 md:px-8 text-center" style="background-color: #003153;">
+    <div class="flex flex-col items-center mb-4">
+      <img src="assets/handshake.png" alt="Business Services Logo" class="h-16 w-16 mb-2">
+      <h1 class="text-2xl md:text-4xl font-bold mb-2 leading-tight">Events & Collaborations</h1>
+      <p class="text-base md:text-lg max-w-xl mx-auto">Building Bridges Between Talent, Institutions & Ideas</p>
+      <div class="mt-6 flex flex-col md:flex-row gap-4">
+        <button class="bg-orange-500 text-white px-6 py-2 rounded-md text-sm hover:bg-orange-600">Request
+          Collaboration</button>
+        <button class="bg-gray-100 text-gray-800 px-6 py-2 rounded-md text-sm hover:bg-gray-200">View Past Events</button>
       </div>
     </div>
   </section>
 
-  <!-- Testimonials -->
-  <section class="py-12 px-6 md:px-12 bg-gray-50">
-    <h2 class="text-2xl font-bold mb-8 text-center">What Our Members Say</h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      <!-- Testimonial 1 -->
-      <div class="bg-white rounded-lg p-6 shadow-md flex flex-col md:flex-row items-center space-x-4">
-        <img src="assets/john.jpg" alt="John Doe" class="w-16 h-16 rounded-full object-cover mb-4 md:mb-0">
-        <div>
-          <h3 class="font-semibold text-lg">John Doe</h3>
-          <p class="text-gray-600 mt-1">Student Forge has been an incredible platform for growth, learning and collaboration.</p>
-        </div>
+  <!-- Event Categories -->
+  <section class="py-10 px-4 md:px-12 text-center bg-white">
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8">What We Do in Events</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
+      <!-- College -->
+      <div class="flex flex-col items-center">
+        <span class="text-5xl mb-2 text-center">🏛️</span>
+        <div class="text-lg font-bold mb-2 text-center">College Collaborations</div>
+        <ul class="list-disc list-inside text-sm text-gray-700 text-center">
+          <li>Technical Fests</li>
+          <li>Guest Talks / Seminars</li>
+          <li>Hackathons & Ideathons</li>
+        </ul>
       </div>
-
-      <!-- Testimonial 2 -->
-      <div class="bg-white rounded-lg p-6 shadow-md flex flex-col md:flex-row items-center space-x-4">
-        <img src="assets/jane.jpg" alt="Jane Smith" class="w-16 h-16 rounded-full object-cover mb-4 md:mb-0">
-        <div>
-          <h3 class="font-semibold text-lg">Jane Smith</h3>
-          <p class="text-gray-600 mt-1">The supportive community and resources have greatly helped me with projects.</p>
-        </div>
+      <!-- Business -->
+      <div class="flex flex-col items-center">
+        <span class="text-5xl mb-2 text-center">💼</span>
+        <div class="text-lg font-bold mb-2 text-center">Business Collaborations</div>
+        <ul class="list-disc list-inside text-sm text-gray-700 text-center">
+          <li>Product Launch Events</li>
+          <li>Youth Engagement Activities</li>
+          <li>Marketing Campaigns</li>
+        </ul>
+      </div>
+      <!-- Student -->
+      <div class="flex flex-col items-center">
+        <span class="text-5xl mb-2 text-center">🎤</span>
+        <div class="text-lg font-bold mb-2 text-center">Student-Led Events</div>
+        <ul class="list-disc list-inside text-sm text-gray-700 text-center">
+          <li>Student Meetups</li>
+          <li>Fireside Chats</li>
+          <li>Innovation Showcases</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- Call to Action -->
-  <section class="bg-blue-900 text-white text-center py-12">
-    <h2 class="text-2xl font-semibold mb-4">Ready to make an impact?</h2>
-    <button class="bg-white text-blue-900 px-6 py-3 rounded font-semibold hover:bg-gray-200" onclick="window.location.href='applynow.html'">
+  <!-- Past Events -->
+  <section class="py-10 px-4 md:px-12 text-center bg-gray-100">
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8">Our Past Events</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <!-- AI Workshop -->
+      <div class="bg-blue-100 p-6 rounded-lg text-left shadow flex flex-col items-center">
+        <img src="assets/aiworkshop1.png" alt="AI Workshop" class="w-full h-40 object-cover rounded-lg mb-4">
+        <h3 class="text-xl font-bold text-blue-700 mb-2">AI Workshop</h3>
+        <p class="text-sm text-gray-800">ABC College™</p>
+        <p class="text-xs text-gray-600">Oct. 13, 2023</p>
+      </div>
+      <!-- Symposium -->
+      <div class="bg-yellow-100 p-6 rounded-lg text-left shadow flex flex-col items-center">
+        <img src="assets/symposium.png" alt="Symposium" class="w-full h-40 object-cover rounded-lg mb-4">
+        <h3 class="text-xl font-bold text-yellow-700 mb-2">SYMPOSIUM</h3>
+        <p class="text-sm text-gray-800">XYZ Institute</p>
+        <p class="text-xs text-gray-600">Aug. 6, 2023</p>
+      </div>
+      <!-- Hackathon -->
+      <div class="bg-gray-200 p-6 rounded-lg text-left shadow flex flex-col items-center">
+        <img src="assets/hackathon.png" alt="Hackathon" class="w-full h-40 object-cover rounded-lg mb-4">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Hackathon</h3>
+        <p class="text-sm text-gray-800">Matro University</p>
+        <p class="text-xs text-gray-600">March 20, 2023</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Apply Now CTA -->
+  <section class="text-white text-center py-10 px-4 md:px-8" style="background-color: #003153;">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Ready to build with Student Forge?</h2>
+    <button class="bg-white text-blue-900 px-6 py-3 rounded font-semibold hover:bg-gray-200 w-full md:w-auto"
+      onclick="window.location.href='applynow.html'">
       Apply Now
     </button>
   </section>
 
+  <!-- Footer -->
+  <footer class="bg-black text-white py-8 px-4 md:px-8">
+    <div class="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto">
+      <div class="flex items-center mb-4 md:mb-0">
+        <img src="assets/temp_logo.png" alt="Student Forge Logo" class="h-10 w-10 mr-3">
+        <span class="font-bold text-lg">Student Forge</span>
+      </div>
+      <div class="flex space-x-4 mb-4 md:mb-0">
+        <a href="https://facebook.com" target="_blank"><img src="assets/fb.png" class="h-7 w-7"></a>
+        <a href="https://instagram.com" target="_blank"><img src="assets/instagram.png.png" class="h-7 w-7"></a>
+        <a href="https://linkedin.com" target="_blank"><img src="assets/in.png.png" class="h-7 w-7"></a>
+        <a href="https://twitter.com" target="_blank"><img src="assets/x.png" class="h-7 w-7"></a>
+        <a href="https://youtube.com" target="_blank"><img src="assets/yt.png.svg" class="h-7 w-7"></a>
+      </div>
+      <div class="text-sm text-gray-400 text-center md:text-right">
+        &copy; StudentForge 2025. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var links = document.querySelectorAll('.nav-zoom');
+      var current = window.location.pathname.split('/').pop();
+      links.forEach(function (link) {
+        if (link.getAttribute('href') === current) {
+          link.classList.add('active');
+        }
+      });
+
+      var hamburger = document.getElementById('hamburger-menu');
+      var mobileNav = document.getElementById('mobile-nav');
+      hamburger.addEventListener('click', function () {
+        mobileNav.classList.toggle('open');
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
+          mobileNav.classList.remove('open');
+        }
+      });
+    });
+  </script>
 </body>
+
 </html>
