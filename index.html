@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Forge</title>
+    <link rel="icon" type="image/png" href="assets/temp_logo.png">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+      .nav-zoom {
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s, background 0.25s;
+      }
+      .nav-zoom:hover, .nav-zoom.active {
+        transform: scale(1.15);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        background: transparent;
+        color: #fff;
+      }
+      /* Hamburger styles */
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        z-index: 60;
+      }
+      .hamburger span {
+        height: 3px;
+        width: 100%;
+        background: #fff;
+        margin: 4px 0;
+        border-radius: 2px;
+        transition: 0.3s;
+      }
+      .mobile-nav {
+        display: none;
+      }
+      .mobile-nav.open {
+        display: block;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100vw;
+        background: #111;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        z-index: 55;
+      }
+      @media (max-width: 768px) {
+        .desktop-nav {
+          display: none !important;
+        }
+        .hamburger {
+          display: flex !important;
+        }
+      }
+      @media (min-width: 769px) {
+        .mobile-nav {
+          display: none !important;
+        }
+        .hamburger {
+          display: none !important;
+        }
+      }
+    </style>
+</head>
+
+<body class="bg-white text-gray-900 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-between items-center sticky top-0 z-50 relative">
+        <div class="flex items-center">
+            <img src="assets/temp_logo.png" alt="Student Forge Logo" class="h-12 w-18 mr-2 cursor-pointer" onclick="window.location.href='index.html'">
+            <span class="text-xl font-bold cursor-pointer mb-2 md:mb-0" onclick="window.location.href='index.html'">STUDENT FORGE</span>
+        </div>
+        <!-- Hamburger Icon -->
+        <div class="hamburger md:hidden" id="hamburger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <!-- Desktop Navbar -->
+        <ul class="desktop-nav flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 text-sm w-full md:w-auto">
+            <li><a href="index.html" class="nav-zoom block text-center">Home</a></li>
+            <li><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
+            <li><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
+            <li><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
+            <li><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
+            <li><a href="applynow.html" class="nav-zoom block text-center">Apply Now</a></li>
+        </ul>
+        <!-- Mobile Navbar -->
+        <ul class="mobile-nav absolute left-0 w-full bg-black text-white text-sm px-4 py-4" id="mobile-nav">
+            <li class="mb-2"><a href="index.html" class="nav-zoom block text-center">Home</a></li>
+            <li class="mb-2"><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
+            <li class="mb-2"><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
+            <li class="mb-2"><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
+            <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
+            <li><a href="applynow.html" class="nav-zoom block text-center">Apply Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="text-white text-center py-16 md:py-20 px-4 md:px-6" style="background-color: #003153;">
+        <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">Empowering Students.<br>Building Startups. Forging Futures.</h1>
+        <p class="text-base md:text-lg mb-6">We mentor, build, and collaborate — with students and startups alike.</p>
+        <div class="flex flex-col md:flex-row justify-center items-center space-y-3 md:space-y-0 md:space-x-4">
+            <button class="bg-white text-blue-900 px-4 py-2 rounded font-semibold w-full md:w-auto" onclick="window.location.href='learnwithforge.html#popular-courses'">Explore Courses</button>
+            <button class="bg-white text-blue-900 px-4 py-2 rounded font-semibold w-full md:w-auto" onclick="window.location.href='buildwithforge.html'">Get Branding Help</button>
+            <button class="bg-white text-blue-900 px-4 py-2 rounded font-semibold w-full md:w-auto" onclick="window.location.href='joinwithforge.html'">Join the Movement</button>
+        </div>
+    </section>
+
+    <!-- Vision & Mission Section -->
+<section class="py-12 px-4 md:px-6 text-center bg-white" id="vision-mission-section">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex flex-col md:flex-row md:space-x-12 items-stretch justify-center">
+      <div class="mb-8 md:mb-0 md:w-1/2 bg-gray-200 rounded-lg shadow-sm flex flex-col justify-center px-6 py-8 vision-mission-trigger" style="cursor:pointer;">
+        <h2 class="text-2xl md:text-3xl font-bold flex items-center justify-center mb-4" style="color:#003153;">
+          <span class="mr-3 text-blue-900 text-3xl">👁️</span> Our Vision
+        </h2>
+        <p class="text-base md:text-lg text-center leading-relaxed" style="color:#003153;">
+          <strong>To become a catalyst for student innovation,</strong><br>
+          helping youth transform ideas into impact-driven ventures.
+        </p>
+      </div>
+      <div class="md:w-1/2 bg-gray-200 rounded-lg shadow-sm flex flex-col justify-center px-6 py-8 vision-mission-trigger" style="cursor:pointer;">
+        <h2 class="text-2xl md:text-3xl font-bold flex items-center justify-center mb-4" style="color:#003153;">
+          <span class="mr-3 text-blue-900 text-3xl">🎯</span> Our Mission
+        </h2>
+        <p class="text-base md:text-lg text-center leading-relaxed" style="color:#003153;">
+          <strong>We mentor, build, and collaborate with students and startups</strong><br>
+          to create a thriving ecosystem of talent, technology, and transformation.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vision & Mission Popup -->
+<div class="popup-overlay" id="vision-popup" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:1000;">
+  <div class="popup-box" style="background-color:rgba(0,0,0,0.85);color:white;padding:40px;border-radius:20px;max-width:600px;box-shadow:0 0 30px rgba(0,255,0,0.3);text-align:left;background-image:url('assets/vision1.png');background-size:cover;background-position:center;position:relative;">
+    <button class="close-btn" onclick="closeVisionPopup()" style="position:absolute;top:15px;right:20px;background:none;border:none;font-size:24px;color:#fff;cursor:pointer;">×</button>
+    <h1 style="font-size:32px;margin-bottom:20px;">Our <br><span class="highlight" style="color:white;">Vision &<br>Mission</span></h1>
+    <ul style="list-style:none;padding:0;">
+      <li style="margin-bottom:15px;font-size:16px;line-height:1.5;"><span class="check" style="color:#00ff00;font-weight:bold;margin-right:8px;">✔</span> Build the Strongest Student Network.</li>
+      <li style="margin-bottom:15px;font-size:16px;line-height:1.5;"><span class="check" style="color:#00ff00;font-weight:bold;margin-right:8px;">✔</span> Create Access to Opportunities, Events, Mentors, and Exposure.</li>
+      <li style="margin-bottom:15px;font-size:16px;line-height:1.5;"><span class="check" style="color:#00ff00;font-weight:bold;margin-right:8px;">✔</span> Empower Students to <strong>“lead from the front”</strong> — no matter where they come from.</li>
+    </ul>
+    <p class="tagline" style="color:#00ff00;font-size:18px;margin-top:30px;font-weight:bold;">We’re here to bridge the gap between where students are and where they can be.</p>
+  </div>
+</div>
+
+    <!-- Ecosystem Section -->
+
+    <section class="py-8 md:py-12 px-4 md:px-6 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6">Our Ecosystem</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-4">
+            <div class="mb-8 md:mb-0">
+                <div class="text-3xl md:text-4xl font-bold cursor-pointer" onclick="window.location.href='learnwithforge.html'">🎓</div>
+                <h3 class="font-bold mt-2 text-lg md:text-xl cursor-pointer" onclick="window.location.href='learnwithforge.html'">Learn with Forge</h3>
+                <p class="text-sm md:text-base">Career Courses for Students</p>
+            </div>
+            <div class="mb-8 md:mb-0">
+                <div class="text-3xl md:text-4xl font-bold cursor-pointer" onclick="window.location.href='buildwithforge.html'">💻</div>
+                <h3 class="font-bold mt-2 text-lg md:text-xl cursor-pointer" onclick="window.location.href='buildwithforge.html'">Build with Forge</h3>
+                <p class="text-sm md:text-base">Branding & Tech Service</p>
+            </div>
+            <div>
+                <div class="text-3xl md:text-4xl font-bold cursor-pointer" onclick="window.location.href='joinwithforge.html'">🤝</div>
+                <h3 class="font-bold mt-2 text-lg md:text-xl cursor-pointer" onclick="window.location.href='joinwithforge.html'">Join with Forge</h3>
+                <p class="text-sm md:text-base">Events, Internships, Partnerships</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center items-center text-left">
+            <!-- Student Empowerment -->
+            <div class="bg-blue-100 rounded-lg p-6 shadow-md">
+                <h3 class="text-blue-800 text-lg md:text-xl font-bold mb-2 flex flex-col items-center justify-center"><span class="mr-2 text-xl md:text-2xl">🎓</span>Student Empowerment</h3>
+                <h4 class="text-lg md:text-xl font-bold mb-2 text-center">Helping Students Achieve Dreams</h4>
+                <ul class="text-sm list-disc pl-5 text-gray-700 text-center"></ul>
+                    <li>Trainings</li>
+                    <li>Internships</li>
+                    <li>Real Projects</li>
+                    <li>Mentoring & Guidance</li>
+                    <li>Workshops</li>
+                    <li>Startup Support</li>
+                </ul>
+                <p class="italic text-gray-600 mt-4 text-sm md:text-base text-center">Everything a student needs to grow</p>
+                <div class="flex justify-center"><button class="bg-blue-900 text-white px-4 py-2 rounded font-semibold w-full md:w-auto mt-4 text-center" onclick="window.location.href='learnwithforge.html'">Explore Now</button></div>
+            </div>
+            <!-- Business Services -->
+            <div class="bg-green-100 rounded-lg p-6 shadow-md">
+                <h3 class="text-green-800 text-lg md:text-xl font-bold mb-2 flex flex-col items-center justify-center"><span class="mr-2 text-xl md:text-2xl">🛠️</span>Business Services</h3>
+                <h4 class="text-lg md:text-xl font-bold mb-2 text-center">Empowering Brands with Tech</h4>
+                <ul class="text-sm list-disc pl-5 text-gray-700 text-center"></ul>
+                    <li>Web Development</li>
+                    <li>App Development</li>
+                    <li>UI/UX Design</li>
+                    <li>Poster & Ad Design</li>
+                    <li>Marketing & Promotions</li>
+                    <li>Branding Services</li>
+                </ul>
+                <p class="italic text-gray-600 mt-4 text-sm md:text-base text-center">Helping businesses go digital</p>
+                <div class="flex justify-center"><button class="bg-blue-900 text-white px-4 py-2 rounded font-semibold w-full md:w-auto mt-4 text-center" onclick="window.location.href='buildwithforge.html'">Explore Now</button></div>
+            </div>
+            <!-- Events & Collaborations -->
+            <div class="bg-yellow-100 rounded-lg p-6 shadow-md">
+                <h3 class="text-yellow-800 text-lg md:text-xl font-bold mb-2 flex flex-col items-center justify-center"><span class="mr-2 text-xl md:text-2xl">🤝<br></span>Events & Collaborations</h3>
+                <h4 class="text-lg md:text-xl font-bold mb-2 text-center">Bridging Talent with Institutions</h4>
+                <ul class="text-sm list-disc pl-5 text-gray-700 text-center"></ul>
+                    <li>College Fests & Guest Talks</li>
+                    <li>Tech Events & Hackathons</li>
+                    <li>Campus Ambassador Programs</li>
+                    <li>Partnered Collaborations</li>
+                    <li>Business & Student Events</li>
+                </ul>
+                <br>
+                <p class="italic text-gray-600 mt-4 text-sm md:text-base text-center">Creating impact through collaboration</p>
+                <div class="flex justify-center"><button class="bg-blue-900 text-white px-4 py-2 rounded font-semibold w-full md:w-auto mt-4 text-center" onclick="window.location.href='joinwithforge.html'">Explore Now</button></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="bg-gray-100 py-8 md:py-12 px-4 md:px-6 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6">Why Choose Us?</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm md:text-base font-semibold">
+            <p>✔ Real-time Projects</p>
+            <p>✔ Industry Mentors</p>
+            <p>✔ Internship & Job Support</p>
+            <p>✔ Efficient & Clear</p>
+            <p>✔ Affordable & Practical</p>
+        </div>
+    </section>
+
+    <!-- Student Success Stories -->
+    <section class="py-8 md:py-12 px-4 md:px-6 text-center">
+        <h2 class="text-2xl font-semibold mb-6">Student Success Stories</h2>
+        <div class="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-8">
+            <div>
+                <img src="assets/ai_2.jpg" class="rounded-full mx-auto w-24 h-24 object-cover" alt="student1">
+                <p class="mt-2 font-semibold">"Inspiration, success."</p>
+            </div>
+            <div>
+                <img src="assets/ai_1.jpg" class="rounded-full mx-auto w-24 h-24 object-cover" alt="student2">
+                <p class="mt-2 font-semibold">"Insightful expertise."</p>
+            </div>
+            <div>
+                <img src="assets/ai_3.jpg" class="rounded-full mx-auto w-24 h-24 object-cover" alt="student3">
+                <p class="mt-2 font-semibold">"Inspires future paths."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Preview -->
+    <section class="bg-gray-100 py-8 md:py-12 px-4 md:px-6 text-center">
+        <h2 class="text-2xl font-semibold mb-6">Gallery Preview</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
+            <img src="assets/office.jpg" alt="gallery1" class="rounded w-full md:w-72 h-48 object-cover">
+            <img src="assets/colleague.jpg" alt="gallery2" class="rounded w-full md:w-72 h-48 object-cover">
+            <img src="assets/speech.jpg" alt="gallery3" class="rounded w-full md:w-72 h-48 object-cover">
+        </div>
+    </section>
+
+    <!-- Apply Now CTA -->
+    <section class="text-white text-center py-10 px-4 md:px-8" style="background-color: #003153;">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Ready to join Student Forge?</h2>
+        <button class="bg-white text-blue-900 px-6 py-3 rounded font-semibold hover:bg-gray-200 w-full md:w-auto" onclick="window.location.href='applynow.html'">
+            Apply Now
+        </button>
+    </section>
+
+
+    <!-- Footer -->
+    <footer style="background-color: black; color: white; padding: 4rem 1rem 2rem;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem;">
+        <div>
+            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                <img src="assets/temp_logo.png" alt="Student Forge Logo" style="height: 32px; width: 32px; margin-right: 0.7rem;">
+                <h3 style="font-size: 1.3rem; position: relative; margin: 0;">Student Forge
+                    <span style="display: block; width: 50px; height: 3px; background-color: #ff6b6b; margin-top: 0.5rem;"></span>
+                </h3>
+            </div>
+            <p style="text-align: justify;">Empowering students with in demand skills while fostering growth through hands on learning
+collaboration and access to real world opportunities in a community of future innovators.</p>
+            <br>
+            <br>
+            <div class="flex space-x-8 mb-4 md:mb-0 justify-center">
+  
+                <a href="https://www.instagram.com/studentforge?igsh=MW12eTRsbTJteTI4Zw==" target="_blank" rel="noopener" aria-label="Instagram">
+                    <img src="assets/instagram.png.png" alt="Instagram" class="h-7 w-7 hover:opacity-80">
+                </a>
+                <a href="https://www.linkedin.com/company/student-forge/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <img src="assets/in.png.png" alt="LinkedIn" class="h-7 w-7 hover:opacity-80">
+                </a>
+                
+                <a href="https://youtube.com/@studentforge?si=oSjCYR07kIdxQZtV" target="_blank" rel="noopener" aria-label="YouTube">
+                    <img src="assets/yt.png.svg" alt="YouTube" class="h-7 w-7 hover:opacity-80">
+                </a>
+            </div>
+        </div>
+        <div style="margin-right: 5rem;">
+            <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; position: relative;">Quick Links
+                <span style="display: block; width: 50px; height: 3px; background-color: #ff6b6b; margin-top: 0.5rem;"></span>
+            </h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 1rem;"><a href="index.html" style="color: #ddd; text-decoration: none;">Home</a></li>
+                <li style="margin-bottom: 1rem;"><a href="learnwithforge.html" style="color: #ddd; text-decoration: none;">Learn with Forge</a></li>
+                <li style="margin-bottom: 1rem;"><a href="buildwithforge.html" style="color: #ddd; text-decoration: none;">Build with Forge</a></li>
+                <li style="margin-bottom: 1rem;"><a href="joinwithforge.html" style="color: #ddd; text-decoration: none;">Join with Forge</a></li>
+                <li style="margin-bottom: 1rem;"><a href="gallery.html" style="color: #ddd; text-decoration: none;">Gallery</a></li>
+                <li style="margin-bottom: 1rem;"><a href="applynow.html" style="color: #ddd; text-decoration: none;">Apply Now</a></li>
+            </ul>
+        </div>
+        <div style="margin-left: 0.1em;">
+            <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; position: relative;">Contact Us
+                <span style="display: block; width: 50px; height: 3px; background-color: #ff6b6b; margin-top: 0.5rem;"></span>
+            </h3>
+            <ul style="list-style: none; padding: 0; color: #ddd;">
+                <li style="margin-bottom: 1rem;">📍 H.no 10-11-860/5, Near Khammam new bus stand, bypass road, Raparthi Nagar, Khammam, Telangana, 507003</li>
+                <li style="margin-bottom: 1rem;">📞 6304218064</li>
+                <li style="margin-bottom: 1rem;">✉️ info@studentforge.in</li>
+                <li style="margin-bottom: 1rem;">🌐 <a href="https://studentforge.in" style="color: #ddd; text-decoration: none;">studentforge.in</a></li>
+            </ul>
+        </div>
+        <div>
+          <h2 style="font-family: inherit; font-weight: 800; font-size: 2.2rem;">Learn. Build. Succeed at Student Forge</h2>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #444; color: #999;">
+        <p>&copy; 2025 Student Forge. All rights reserved.</p>
+    </div>
+</footer>
+
+
+    <!-- Navbar -->
+    <script>
+      // Highlight active navbar link
+      document.addEventListener('DOMContentLoaded', function() {
+        var links = document.querySelectorAll('.nav-zoom');
+        var current = window.location.pathname.split('/').pop();
+        links.forEach(function(link) {
+          if(link.getAttribute('href') === current) {
+            link.classList.add('active');
+          }
+        });
+        // Hamburger menu toggle
+        var hamburger = document.getElementById('hamburger-menu');
+        var mobileNav = document.getElementById('mobile-nav');
+        hamburger.addEventListener('click', function() {
+          mobileNav.classList.toggle('open');
+        });
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
+            mobileNav.classList.remove('open');
+          }
+        });
+      });
+      // Show popup when any Vision & Mission section is clicked
+      document.querySelectorAll('.vision-mission-trigger').forEach(function(el) {
+        el.addEventListener('click', function() {
+          document.getElementById('vision-popup').style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        });
+      });
+      // Close popup when clicking anywhere outside the popup-box
+      document.getElementById('vision-popup').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeVisionPopup();
+        }
+      });
+      // Close popup
+      function closeVisionPopup() {
+        document.getElementById('vision-popup').style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    </script>
+</body>
+
+</html>
