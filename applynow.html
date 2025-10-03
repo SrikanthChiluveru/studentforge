@@ -27,6 +27,13 @@
 </head>
 <body>
   <div id="nav-placeholder"></div>
+  <!-- Loader Animation -->
+  <div id="loaderOverlay" class="hidden fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+    <div class="flex flex-col items-center">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"></div>
+      <span class="text-white text-lg font-semibold">Processing Payment...</span>
+    </div>
+  </div>
  <div class="max-w-lg mx-auto mt-12 p-8 bg-white shadow-lg rounded-xl border border-gray-200">
   <h1 class="text-2xl font-bold mb-2 text-gray-900">Enroll to Student Forge</h1>
   <p class="text-gray-600 mb-6">Fill details below → verify OTP (testing) → proceed to payment.</p>
@@ -282,50 +289,51 @@ loadCoursesForForm();
     if (Date.now() > otpExpiryTs) { alert('OTP expired. Please resend.'); return; }
 
    if (typed === generatedOTP) {
-  clearInterval(countdownTimer);
-  otpStatus.textContent = 'Verified ✓';
-  verifyOtpBtn.disabled = true;
-  resendBtn.disabled = true;
-  otpInput.disabled = true;
+    clearInterval(countdownTimer);
+    otpStatus.textContent = 'Verified ✓';
+    verifyOtpBtn.disabled = true;
+    resendBtn.disabled = true;
+    otpInput.disabled = true;
 
-  // ✅ Post to Google Sheet
-// ✅ Post to Google Sheet (FormData way)
-try {
-  const formData = new FormData(applyForm);
-  formData.append("timestamp", new Date().toLocaleString()); 
-  if (window.selectedCourse) {
-  formData.append("course", window.selectedCourse.name);
-  formData.append("price", window.selectedCourse.price);
-} else {
-  formData.append("course", "Not selected");
-  formData.append("price", "0");
-}
+    // Show loader animation
+    document.getElementById('loaderOverlay').classList.remove('hidden');
 
+    // ✅ Post to Google Sheet (FormData way)
+    try {
+      const formData = new FormData(applyForm);
+      formData.append("timestamp", new Date().toLocaleString()); 
+      if (window.selectedCourse) {
+        formData.append("course", window.selectedCourse.name);
+        formData.append("price", window.selectedCourse.price);
+      } else {
+        formData.append("course", "Not selected");
+        formData.append("price", "0");
+      }
 
-  const resp = await fetch(
-    "https://script.google.com/macros/s/AKfycbzEkwnxYaGi0-DhOpFjg8E6Wi0vnRPy2h9j_5OfIhwGq1hPE0GztTRTelNwHkfHPK6f/exec",
-    {
-      method: "POST",
-      //headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData,
+      const resp = await fetch(
+        "https://script.google.com/macros/s/AKfycbzEkwnxYaGi0-DhOpFjg8E6Wi0vnRPy2h9j_5OfIhwGq1hPE0GztTRTelNwHkfHPK6f/exec",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      // Simulate loading for 1.2s before showing Proceed to Pay
+      setTimeout(() => {
+        document.getElementById('loaderOverlay').classList.add('hidden');
+        if (resp.status === 200) {
+          console.log("✅ Data sent to Google Sheets");
+          proceedPayBtn.classList.remove("hidden");
+        } else {
+          alert("❌ Failed to submit data to Google Sheets");
+        }
+      }, 1200);
+
+    } catch (err) {
+      document.getElementById('loaderOverlay').classList.add('hidden');
+      console.error("❌ Google Sheets error:", err);
+      alert("Error uploading to Google Sheets. Check console.");
     }
-  );
-
-
-
-  if (resp.status === 200) {
-    console.log("✅ Data sent to Google Sheets");
-    // now show Proceed to Pay button
-    proceedPayBtn.classList.remove("hidden");
-  } else {
-    alert("❌ Failed to submit data to Google Sheets");
-  }
-   proceedPayBtn.classList.remove("hidden");
-} catch (err) {
-  console.error("❌ Google Sheets error:", err);
-  alert("Error uploading to Google Sheets. Check console.");
-}
-
    }
  else {
       alert('Invalid OTP — please try again.');
@@ -464,7 +472,7 @@ async function openRazorpayCheckout() {
 
   try {
     // Step 1: Request server to create order
-    const orderResp = await fetch('http://localhost:3000/create_order', {
+    const orderResp = await fetch('https://sf-backend-c4so.onrender.com/create_order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ course: window.selectedCourse.name })
@@ -489,7 +497,7 @@ async function openRazorpayCheckout() {
         console.log("Razorpay response:", response);
 
         // Step 3: Verify payment with server
-        const verifyResp = await fetch('http://localhost:3000/verify_payment', {
+        const verifyResp = await fetch('https://sf-backend-c4so.onrender.com/verify_payment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -501,7 +509,8 @@ async function openRazorpayCheckout() {
         const verifyData = await verifyResp.json();
 
         if (verifyData.valid) {
-          alert('Payment verified successfully!');
+          // Show loader
+          document.getElementById('loaderOverlay').classList.remove('hidden');
 
           // ✅ Existing Google Sheet / OTP flow remains
           // You can now send paymentId + timestamp to Google Sheet
@@ -512,19 +521,21 @@ async function openRazorpayCheckout() {
           formData.append('price', window.selectedCourse.price);
 
           await fetch('https://script.google.com/macros/s/AKfycbyaG3OIrsRulSa1bA75UexqdylgmOHorOA2wIAI4ApydyoesNOt9R1R_qP_pEg8esXO/exec', { method: 'POST', body: formData });
-   
-   
 
-          // Show invoice overlay
-          document.getElementById('invoiceContent').innerHTML = `
-            <p><strong>Course:</strong> ${window.selectedCourse.name}</p>
-            <p><strong>Price:</strong> ₹${window.selectedCourse.price}</p>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Phone:</strong> ${phone}</p>
-            <p><strong>Payment ID:</strong> ${response.razorpay_payment_id}</p>
-          `;
-          document.getElementById('invoiceOverlay').classList.remove('hidden');
+          // Simulate loading for 1.5s (or until invoice is ready)
+          setTimeout(() => {
+            document.getElementById('loaderOverlay').classList.add('hidden');
+            // Show invoice overlay
+            document.getElementById('invoiceContent').innerHTML = `
+              <p><strong>Course:</strong> ${window.selectedCourse.name}</p>
+              <p><strong>Price:</strong> ₹${window.selectedCourse.price}</p>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Phone:</strong> ${phone}</p>
+              <p><strong>Payment ID:</strong> ${response.razorpay_payment_id}</p>
+            `;
+            document.getElementById('invoiceOverlay').classList.remove('hidden');
+          }, 1500);
 
         } else {
           alert('Payment verification failed. Contact support.');
