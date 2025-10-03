@@ -1,0 +1,64 @@
+<!-- nav.html -->
+<nav class="bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-between items-center sticky top-0 z-50 relative">
+    <!-- Logo -->
+    <div class="flex items-center">
+        <img src="assets/temp_logo.png" alt="Student Forge Logo" class="h-12 w-18 mr-2 cursor-pointer" onclick="window.location.href='index.html'">
+        <span class="text-xl font-bold cursor-pointer mb-2 md:mb-0" onclick="window.location.href='index.html'">STUDENT FORGE</span>
+    </div>
+
+    <!-- Hamburger Icon (mobile) -->
+    <div class="hamburger md:hidden" id="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Desktop Navbar -->
+    <ul class="desktop-nav hidden md:flex space-x-6 text-sm w-auto">
+        <li><a href="index.html" class="nav-zoom block text-center">Home</a></li>
+        <li><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
+        <li><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
+        <li><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
+        <li><a href="gallery.html" class="nav-zoom block text-center">Events</a></li>
+        <li><a href="contactus.html" class="nav-zoom block text-center">Contact Us</a></li>
+    </ul>
+
+    <!-- Mobile Navbar -->
+    <ul class="mobile-nav md:hidden absolute left-0 w-full bg-black text-white text-sm px-4 py-4 hidden" id="mobile-nav">
+        <li class="mb-2"><a href="index.html" class="nav-zoom block text-center">Home</a></li>
+        <li class="mb-2"><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
+        <li class="mb-2"><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
+        <li class="mb-2"><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
+        <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Events</a></li>
+        <li><a href="contactus.html" class="nav-zoom block text-center">Contact Us</a></li>
+    </ul>
+</nav>
+
+<!-- Nav JS (for hamburger + active link) -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.getElementById('hamburger-menu');
+    const mobileNav = document.getElementById('mobile-nav');
+
+    // Toggle mobile menu
+    if(hamburger && mobileNav) {
+        hamburger.addEventListener('click', () => {
+            mobileNav.classList.toggle('hidden');
+        });
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', e => {
+            if (!mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
+                mobileNav.classList.add('hidden');
+            }
+        });
+    }
+
+    // Highlight active desktop link
+    const links = document.querySelectorAll('.nav-zoom');
+    const currentPage = window.location.pathname.split('/').pop();
+    links.forEach(link => {
+        if(link.getAttribute('href') === currentPage) link.classList.add('active');
+    });
+});
+</script>

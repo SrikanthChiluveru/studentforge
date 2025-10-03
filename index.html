@@ -7,6 +7,9 @@
     <title>Student Forge</title>
     <link rel="icon" type="image/png" href="assets/temp_logo.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style>
       .nav-zoom {
         transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s, background 0.25s;
@@ -86,8 +89,12 @@
             <li><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
             <li><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
             <li><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
-            <li><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
-            <li><a href="applynow.html" class="nav-zoom block text-center">Apply Now</a></li>
+            <li><a href="gallery.html" class="nav-zoom block text-center">Events</a></li>
+            <li><a href="contactus.html" class="nav-zoom block text-center">Contact Us</a></li>
+            <!-- <li><a href="forgelaunch.html" class="nav-zoom block text-center">Forge Launch</a></li>
+            <li><a href="forgefoundation.html" class="nav-zoom block text-center">Forge Foundation</a></li>
+            <li><a href="forgeelevate.html" class="nav-zoom block text-center">Forge Elevate</a></li>
+            <li><a href="cources.html" class="nav-zoom block text-center">cources</a></li> -->
         </ul>
         <!-- Mobile Navbar -->
         <ul class="mobile-nav absolute left-0 w-full bg-black text-white text-sm px-4 py-4" id="mobile-nav">
@@ -95,8 +102,8 @@
             <li class="mb-2"><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
             <li class="mb-2"><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
             <li class="mb-2"><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
-            <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
-            <li><a href="applynow.html" class="nav-zoom block text-center">Apply Now</a></li>
+            <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Events</a></li>
+            <li><a href="contactus.html" class="nav-zoom block text-center">Contact Us</a></li>
         </ul>
     </nav>
 
@@ -117,7 +124,7 @@
     <div class="flex flex-col md:flex-row md:space-x-12 items-stretch justify-center">
       <div class="mb-8 md:mb-0 md:w-1/2 bg-gray-200 rounded-lg shadow-sm flex flex-col justify-center px-6 py-8 vision-mission-trigger" style="cursor:pointer;">
         <h2 class="text-2xl md:text-3xl font-bold flex items-center justify-center mb-4" style="color:#003153;">
-          <span class="mr-3 text-blue-900 text-3xl">👁️</span> Our Vision
+          <span class="mr-3 text-blue-900 text-3xl"><span class="material-icons">visibility</span></span> Our Vision
         </h2>
         <p class="text-base md:text-lg text-center leading-relaxed" style="color:#003153;">
           <strong>To become a catalyst for student innovation,</strong><br>
@@ -126,7 +133,7 @@
       </div>
       <div class="md:w-1/2 bg-gray-200 rounded-lg shadow-sm flex flex-col justify-center px-6 py-8 vision-mission-trigger" style="cursor:pointer;">
         <h2 class="text-2xl md:text-3xl font-bold flex items-center justify-center mb-4" style="color:#003153;">
-          <span class="mr-3 text-blue-900 text-3xl">🎯</span> Our Mission
+          <span class="mr-3 text-blue-900 text-3xl"><span class="material-icons">track_changes</span></span> Our Mission
         </h2>
         <p class="text-base md:text-lg text-center leading-relaxed" style="color:#003153;">
           <strong>We mentor, build, and collaborate with students and startups</strong><br>
@@ -143,9 +150,9 @@
     <button class="close-btn" onclick="closeVisionPopup()" style="position:absolute;top:15px;right:20px;background:none;border:none;font-size:24px;color:#fff;cursor:pointer;">×</button>
     <h1 style="font-size:32px;margin-bottom:20px;">Our <br><span class="highlight" style="color:white;">Vision &<br>Mission</span></h1>
     <ul style="list-style:none;padding:0;">
-      <li style="margin-bottom:15px;font-size:16px;line-height:1.5;"><span class="check" style="color:#00ff00;font-weight:bold;margin-right:8px;">✔</span> Build the Strongest Student Network.</li>
-      <li style="margin-bottom:15px;font-size:16px;line-height:1.5;"><span class="check" style="color:#00ff00;font-weight:bold;margin-right:8px;">✔</span> Create Access to Opportunities, Events, Mentors, and Exposure.</li>
-      <li style="margin-bottom:15px;font-size:16px;line-height:1.5;"><span class="check" style="color:#00ff00;font-weight:bold;margin-right:8px;">✔</span> Empower Students to <strong>“lead from the front”</strong> — no matter where they come from.</li>
+      <li style="margin-bottom:15px;font-size:16px;line-height:1.5;"><span class="check" style="color:#00ff00;font-weight:bold;margin-right:8px;"><span class="material-icons">done</span></span> Build the Strongest Student Network.</li>
+      <li style="margin-bottom:15px;font-size:16px;line-height:1.5;"><span class="check" style="color:#00ff00;font-weight:bold;margin-right:8px;"><span class="material-icons">done</span></span> Create Access to Opportunities, Events, Mentors, and Exposure.</li>
+      <li style="margin-bottom:15px;font-size:16px;line-height:1.5;"><span class="check" style="color:#00ff00;font-weight:bold;margin-right:8px;"><span class="material-icons">done</span></span> Empower Students to <strong>“lead from the front”</strong> — no matter where they come from.</li>
     </ul>
     <p class="tagline" style="color:#00ff00;font-size:18px;margin-top:30px;font-weight:bold;">We’re here to bridge the gap between where students are and where they can be.</p>
   </div>
@@ -157,17 +164,17 @@
         <h2 class="text-2xl md:text-3xl font-bold mb-6">Our Ecosystem</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-4">
             <div class="mb-8 md:mb-0">
-                <div class="text-3xl md:text-4xl font-bold cursor-pointer" onclick="window.location.href='learnwithforge.html'">🎓</div>
+                <div class="text-3xl md:text-4xl font-bold cursor-pointer" onclick="window.location.href='learnwithforge.html'"><span class="material-icons">school</span></div>
                 <h3 class="font-bold mt-2 text-lg md:text-xl cursor-pointer" onclick="window.location.href='learnwithforge.html'">Learn with Forge</h3>
                 <p class="text-sm md:text-base">Career Courses for Students</p>
             </div>
             <div class="mb-8 md:mb-0">
-                <div class="text-3xl md:text-4xl font-bold cursor-pointer" onclick="window.location.href='buildwithforge.html'">💻</div>
+                <div class="text-3xl md:text-4xl font-bold cursor-pointer" onclick="window.location.href='buildwithforge.html'"><span class="material-icons">computer</span></div>
                 <h3 class="font-bold mt-2 text-lg md:text-xl cursor-pointer" onclick="window.location.href='buildwithforge.html'">Build with Forge</h3>
                 <p class="text-sm md:text-base">Branding & Tech Service</p>
             </div>
             <div>
-                <div class="text-3xl md:text-4xl font-bold cursor-pointer" onclick="window.location.href='joinwithforge.html'">🤝</div>
+                <div class="text-3xl md:text-4xl font-bold cursor-pointer" onclick="window.location.href='joinwithforge.html'"><span class="material-icons">handshake</span></div>
                 <h3 class="font-bold mt-2 text-lg md:text-xl cursor-pointer" onclick="window.location.href='joinwithforge.html'">Join with Forge</h3>
                 <p class="text-sm md:text-base">Events, Collaborations, Partnerships</p>
             </div>
@@ -175,7 +182,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center items-center text-left">
             <!-- Student Empowerment -->
             <div class="bg-blue-100 rounded-lg p-6 shadow-md">
-                <h3 class="text-blue-800 text-lg md:text-xl font-bold mb-2 flex flex-col items-center justify-center"><span class="mr-2 text-xl md:text-2xl">🎓</span>Student Empowerment</h3>
+                <h3 class="text-blue-800 text-lg md:text-xl font-bold mb-2 flex flex-col items-center justify-center"><span class="mr-2 text-xl md:text-2xl"><span class="material-icons">school</span></span>Student Empowerment</h3>
                 <h4 class="text-lg md:text-xl font-bold mb-2 text-center">Helping Students Achieve Dreams</h4>
                 <ul class="text-sm list-disc pl-5 text-gray-700 text-center"></ul>
                     <li>Trainings</li>
@@ -190,7 +197,7 @@
             </div>
             <!-- Business Services -->
             <div class="bg-green-100 rounded-lg p-6 shadow-md">
-                <h3 class="text-green-800 text-lg md:text-xl font-bold mb-2 flex flex-col items-center justify-center"><span class="mr-2 text-xl md:text-2xl">🛠️</span>Business Services</h3>
+                <h3 class="text-green-800 text-lg md:text-xl font-bold mb-2 flex flex-col items-center justify-center"><span class="mr-2 text-xl md:text-2xl"><span class="material-icons">build</span></span>Business Services</h3>
                 <h4 class="text-lg md:text-xl font-bold mb-2 text-center">Empowering Brands with Tech</h4>
                 <ul class="text-sm list-disc pl-5 text-gray-700 text-center"></ul>
                     <li>Web Development</li>
@@ -205,7 +212,7 @@
             </div>
             <!-- Events & Collaborations -->
             <div class="bg-yellow-100 rounded-lg p-6 shadow-md">
-                <h3 class="text-yellow-800 text-lg md:text-xl font-bold mb-2 flex flex-col items-center justify-center"><span class="mr-2 text-xl md:text-2xl">🤝<br></span>Events & Collaborations</h3>
+                <h3 class="text-yellow-800 text-lg md:text-xl font-bold mb-2 flex flex-col items-center justify-center"><span class="mr-2 text-xl md:text-2xl"><span class="material-icons">handshake</span><br></span>Events & Collaborations</h3>
                 <h4 class="text-lg md:text-xl font-bold mb-2 text-center">Bridging Talent with Institutions</h4>
                 <ul class="text-sm list-disc pl-5 text-gray-700 text-center"></ul>
                     <li>College Fests & Guest Talks</li>
@@ -225,11 +232,11 @@
     <section class="bg-gray-100 py-8 md:py-12 px-4 md:px-6 text-center">
         <h2 class="text-2xl md:text-3xl font-bold mb-6">Why Choose Us?</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm md:text-base font-semibold">
-            <p>✔ Real-time Projects</p>
-            <p>✔ Industry Mentors</p>
-            <p>✔ Internship & Job Support</p>
-            <p>✔ Efficient & Clear</p>
-            <p>✔ Affordable & Practical</p>
+            <p><span class="material-icons">done</span> Real-time Projects</p>
+            <p><span class="material-icons">done</span> Industry Mentors</p>
+            <p><span class="material-icons">done</span> Internship & Job Support</p>
+            <p><span class="material-icons">done</span> Efficient & Clear</p>
+            <p><span class="material-icons">done</span> Affordable & Practical</p>
         </div>
     </section>
 
@@ -265,10 +272,11 @@
     <!-- Apply Now CTA -->
     <section class="text-white text-center py-10 px-4 md:px-8" style="background-color: #003153;">
         <h2 class="text-2xl md:text-3xl font-bold mb-4">Ready to join Student Forge?</h2>
-        <button class="bg-white text-blue-900 px-6 py-3 rounded font-semibold hover:bg-gray-200 w-full md:w-auto" onclick="window.location.href='applynow.html'">
-            Apply Now
+        <button class="bg-white text-blue-900 px-6 py-3 rounded font-semibold hover:bg-gray-200 w-full md:w-auto" onclick="window.location.href='contactus.html'">
+            Contact Us
         </button>
     </section>
+
 
 
     <!-- Footer -->
@@ -308,8 +316,8 @@ collaboration and access to real world opportunities in a community of future in
                 <li style="margin-bottom: 1rem;"><a href="learnwithforge.html" style="color: #ddd; text-decoration: none;">Learn with Forge</a></li>
                 <li style="margin-bottom: 1rem;"><a href="buildwithforge.html" style="color: #ddd; text-decoration: none;">Build with Forge</a></li>
                 <li style="margin-bottom: 1rem;"><a href="joinwithforge.html" style="color: #ddd; text-decoration: none;">Join with Forge</a></li>
-                <li style="margin-bottom: 1rem;"><a href="gallery.html" style="color: #ddd; text-decoration: none;">Gallery</a></li>
-                <li style="margin-bottom: 1rem;"><a href="applynow.html" style="color: #ddd; text-decoration: none;">Apply Now</a></li>
+                <li style="margin-bottom: 1rem;"><a href="gallery.html" style="color: #ddd; text-decoration: none;">Events</a></li>
+                <li style="margin-bottom: 1rem;"><a href="applynow.html" style="color: #ddd; text-decoration: none;">Contact Us</a></li>
             </ul>
         </div>
         <div style="margin-left: 0.1em;">
@@ -317,10 +325,10 @@ collaboration and access to real world opportunities in a community of future in
                 <span style="display: block; width: 50px; height: 3px; background-color: #ff6b6b; margin-top: 0.5rem;"></span>
             </h3>
             <ul style="list-style: none; padding: 0; color: #ddd;">
-                <li style="margin-bottom: 1rem;">📍 H.no 10-11-860/5, Near Khammam New Bus Stand, Bypass Road, Raparthi Nagar, Khammam, Telangana, 507003</li>
-                <li style="margin-bottom: 1rem;">📞 6304218064</li>
-                <li style="margin-bottom: 1rem;">✉️ info@studentforge.in</li>
-                <li style="margin-bottom: 1rem;">🌐 <a href="https://studentforge.in" style="color: #ddd; text-decoration: none;">studentforge.in</a></li>
+                <li style="margin-bottom: 1rem;"><span class="material-icons">location_on</span> H.no 10-11-860/5, Near Khammam New Bus Stand, Bypass Road, Raparthi Nagar, Khammam, Telangana, 507003</li>
+                <li style="margin-bottom: 1rem;"><span class="material-icons">phone</span> 6304218064</li>
+                <li style="margin-bottom: 1rem;"><span class="material-icons">mail</span> info@studentforge.in</li>
+                <li style="margin-bottom: 1rem;"><span class="material-icons">language</span> <a href="https://studentforge.in" style="color: #ddd; text-decoration: none;">studentforge.in</a></li>
             </ul>
         </div>
         <div>
@@ -332,6 +340,11 @@ collaboration and access to real world opportunities in a community of future in
     </div>
 </footer>
 
+    <!-- New Courses Popup -->
+<div id="new-courses-popup" class="fixed top-16 right-4 bg-blue-900 text-white rounded-lg shadow-lg p-4 w-72 opacity-0 pointer-events-none transition-opacity duration-500 z-50 hover:cursor-pointer">
+  <h3 class="text-lg font-bold mb-2">New Course</h3>
+  <div id="course-content" class="text-sm leading-snug"></div>
+</div>
 
     <!-- Navbar -->
     <script>
@@ -375,7 +388,64 @@ collaboration and access to real world opportunities in a community of future in
         document.getElementById('vision-popup').style.display = 'none';
         document.body.style.overflow = '';
       }
+      document.addEventListener('DOMContentLoaded', function() {
+  const popup = document.getElementById('new-courses-popup');
+  const content = document.getElementById('course-content');
+
+const navbar = document.querySelector('nav');
+const navbarHeight = navbar.offsetHeight;
+
+popup.style.top = `${navbarHeight + 10}px`; // 10px space below navbar
+
+
+  // Fetch course data
+  fetch('courses.json')
+    .then(response => response.json())
+    .then(data => {
+      // Filter "NEW" courses
+      const newCourses = data.filter(c => c.tag === "NEW");
+      if (newCourses.length === 0) return;
+
+      let index = 0;
+
+      function showCourse(course) {
+        console.log("Showing course:", course);
+        // Construct course html
+        content.innerHTML = `
+          <p class="font-semibold">${course.name}</p>
+          <p class="italic">${course.desc}</p>
+         
+        `;
+        popup.onclick = () => {
+    window.location.href = course.link || "learnwithforge.html";
+  };
+        popup.classList.remove('opacity-0', 'pointer-events-none');
+      }
+
+      function hideCourse() {
+        popup.classList.add('opacity-0', 'pointer-events-none');
+      }
+
+      function cycleCourses() {
+        showCourse(newCourses[index]);
+        setTimeout(() => {
+          // hideCourse();
+          setTimeout(() => {
+            index = (index + 1) % newCourses.length;
+            cycleCourses();
+          }, 500); // fade out duration (match transition duration)
+        }, 1000); // show course duration
+      }
+
+      cycleCourses();
+    })
+    .catch(err => {
+      console.error('Error loading courses:', err);
+    });
+});
+
     </script>
+    
 </body>
 
 </html>

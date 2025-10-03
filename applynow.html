@@ -1,280 +1,621 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Apply Now | Student Forge</title>
-  <link rel="icon" type="image/png" href="assets/temp_logo.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apply Now | Student Forge (Mock OTP)</title>
+  <link rel="icon" href="assets/temp_logo.png" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <style>
-    .nav-zoom {
-      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s, background 0.25s;
-    }
-    .nav-zoom:hover, .nav-zoom.active {
-      transform: scale(1.15);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-      background: transparent;
-      color: #fff;
-    }
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-      z-index: 60;
-    }
-    .hamburger span {
-      height: 3px;
-      width: 100%;
-      background: #fff;
-      margin: 4px 0;
-      border-radius: 2px;
-      transition: 0.3s;
-    }
-    .mobile-nav {
-      display: none;
-    }
-    .mobile-nav.open {
-      display: block;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      width: 100vw;
-      background: #111;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-      z-index: 55;
-    }
-    @media (max-width: 768px) {
-      .desktop-nav {
-        display: none !important;
-      }
-      .hamburger {
-        display: flex !important;
-      }
-    }
-    @media (min-width: 769px) {
-      .mobile-nav {
-        display: none !important;
-      }
-      .hamburger {
-        display: none !important;
-      }
-    }
+    body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; background:#f3f4f6; color:#111827; }
+    .card { background:white; max-width:760px; margin:32px auto; padding:24px; border-radius:12px; box-shadow:0 6px 24px rgba(15,23,42,.06); }
+    .field { margin-bottom:12px; }
+    input, select, textarea { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; }
+    button { padding:10px 14px; border-radius:8px; cursor:pointer; border:0; }
+    .btn-primary { background:#003153; color:white; }
+    .btn-success { background:#16a34a; color:white; }
+    .btn-muted { background:#6b7280; color:white; }
+    .otp-box { display:flex; gap:8px; align-items:center; margin-top:8px; }
+    .small { font-size:13px; color:#6b7280; }
+    .hidden { display:none; }
+    .badge { display:inline-block; padding:6px 8px; border-radius:999px; background:#ecfeff; color:#0369a1; font-weight:600; font-size:13px; }
+
+
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
+  <div id="nav-placeholder"></div>
+ <div class="max-w-lg mx-auto mt-12 p-8 bg-white shadow-lg rounded-xl border border-gray-200">
+  <h1 class="text-2xl font-bold mb-2 text-gray-900">Enroll to Student Forge</h1>
+  <p class="text-gray-600 mb-6">Fill details below → verify OTP (testing) → proceed to payment.</p>
 
-  <!-- Navbar -->
-  <nav class="bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-between items-center sticky top-0 z-50 relative">
-    <div class="flex items-center">
-      <img src="assets/temp_logo.png" alt="Student Forge Logo" class="h-12 w-18 mr-2 cursor-pointer" onclick="window.location.href='index.html'">
-      <span class="text-xl font-bold cursor-pointer mb-2 md:mb-0" onclick="window.location.href='index.html'">STUDENT FORGE</span>
+  <form id="applyForm" onsubmit="return false;" class="space-y-4">
+<!-- Course Selection -->
+<div>
+  <label class="block text-gray-700 font-medium mb-1">Select Course</label>
+  <select id="courseSelect" required
+    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-gray-700">
+    <option value="" disabled selected>Select a course</option>
+  </select>
+</div>
+
+<!-- Show Price -->
+<div class="mt-2">
+  <p class="text-gray-800 font-medium">Total Price: ₹<span id="coursePrice">0</span></p>
+</div>
+
+    <!-- Name -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Name</label>
+      <input id="name" name="name" type="text" placeholder="Full name" required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
     </div>
-    <!-- Hamburger Icon -->
-    <div class="hamburger md:hidden" id="hamburger-menu">
-      <span></span>
-      <span></span>
-      <span></span>
+
+    <!-- College / Business Name -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">College / Business Name</label>
+      <input id="bname" name="bname" type="text" placeholder="College / Business name" required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
     </div>
-    <!-- Desktop Navbar -->
-    <ul class="desktop-nav flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 text-sm w-full md:w-auto">
-      <li><a href="index.html" class="nav-zoom block text-center">Home</a></li>
-      <li><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
-      <li><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
-      <li><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
-      <li><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
-      <li><a href="applynow.html" class="nav-zoom block text-center">Apply Now</a></li>
-    </ul>
-    <!-- Mobile Navbar -->
-    <ul class="mobile-nav absolute left-0 w-full bg-black text-white text-sm px-4 py-4" id="mobile-nav">
-      <li class="mb-2"><a href="index.html" class="nav-zoom block text-center">Home</a></li>
-      <li class="mb-2"><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
-      <li class="mb-2"><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
-      <li class="mb-2"><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
-      <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
-      <li><a href="applynow.html" class="nav-zoom block text-center">Apply Now</a></li>
-    </ul>
-  </nav>
 
-  <!-- Apply Now Header -->
-<section class="text-white text-center py-10 md:py-16 px-4 md:px-8" style="background-color: #003153;">
-    <h1 class="text-2xl md:text-4xl font-bold mb-3">Apply to Student Forge</h1>
-    <p class="max-w-xl mx-auto text-base md:text-lg">Join our dynamic community of learners, builders, and leaders.</p>
-  </section>
-
-  <!-- Application Form -->
-  <section class="bg-white py-8 md:py-12 px-4 md:px-20">
-    <div class="max-w-3xl mx-auto bg-gray-100 p-4 md:p-8 rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold mb-6 text-center">Get in Touch With Us</h2>
-      <form id="submit-to-google-sheet" class="space-y-6">
-        <div>
-          <input type="text" name="name" required class="w-full p-3 rounded border border-gray-300" placeholder="Name"/>
-        </div>
-        <div>
-          <input type="text" name="bname" required class="w-full p-3 rounded border border-gray-300" placeholder="College/BusinessName"/>
-        </div>
-        <div>
-          <input type="email" name="email" required class="w-full p-3 rounded border border-gray-300" placeholder="Email"/>
-        </div>
-        <div>
-          <input type="tel" name="phone" required class="w-full p-3 rounded border border-gray-300" placeholder="Mobile Number" pattern="[0-9]{10}" maxlength="10" minlength="10" inputmode="numeric" title="Please enter a 10-digit mobile number"/>
-        </div>
-        <div>
-          <select name="interest" required class="w-full p-3 rounded border border-gray-300">
-            <option value="" disabled selected>Category</option>
-            <option value="learning">Learn with Forge</option>
-            <option value="building">Build with Forge</option>
-            <option value="mentoring">Join with Forge</option>
-          </select>
-        </div>
-        <div>
-          <textarea name="message" rows="4" required class="w-full p-3 rounded border border-gray-300" placeholder="Your message..."></textarea>
-        </div>
-        <div class="text-center">
-          <button type="submit" class="text-white px-6 py-3 rounded w-full md:w-auto" style="background-color: #003153;">
-            Submit
-          </button>
-        </div>
-      </form>
+    <!-- Email -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Email</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
     </div>
-  </section>
 
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwRK0yBcWBMtGyG6S-sYTg_kH34TGDUXE2MUuo9AbI7Ln5g6MTJ7ATnHY6cjRCSy-qZ/exec";
-    const form = document.getElementById("submit-to-google-sheet");
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-      var formData = new FormData(form);
-      fetch(scriptURL, { method: "POST", body: formData })
-        .then(function(response) {
-          if (response.status === 200) {
-            document.getElementById('success-popup').style.display = 'flex';
-            form.reset();
-          } else {
-            alert("Something went wrong. Please try again!");
-          }
-        })
-        .catch(function(error) {
-          alert("Something went wrong. Please try again...!");
-        });
-    });
-    </script>
+    <!-- Mobile -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Mobile Number</label>
+      <input id="phone" name="phone" type="tel" placeholder="10-digit mobile (e.g. 9876543210)" pattern="[0-9]{10}" maxlength="10" required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+      <p class="text-sm text-gray-500 mt-1">OTP will be generated for demo and printed in console (testing only).</p>
+    </div>
 
-  <!-- Success Popup -->
-  <div id="success-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);z-index:2000;align-items:center;justify-content:center;">
-    <div style="background:white;padding:40px 30px;border-radius:20px;box-shadow:0 0 30px rgba(0,0,0,0.15);text-align:center;max-width:350px;position:relative;">
-      <div style="font-size:60px;color:#22c55e;margin-bottom:10px;">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:60px;height:60px;display:inline-block;">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
+    <!-- Category -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Category</label>
+      <select id="interest" name="interest" required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-gray-700">
+        <option value="" disabled selected>Category</option>
+        <option value="learning">Learn with Forge</option>
+        <option value="building">Build with Forge</option>
+        <option value="mentoring">Join with Forge</option>
+      </select>
+    </div>
+
+    <!-- Message -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Message</label>
+      <textarea id="message" name="message" rows="4" placeholder="Your message..." required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex flex-wrap gap-3 mt-2">
+      <button id="sendOtpBtn" type="button" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">Submit & Send OTP</button>
+      <button id="proceedPayBtn" type="button" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition hidden">Proceed to Pay</button>
+      <button id="resetBtn" type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 transition">Reset</button>
+    </div>
+
+    <!-- OTP UI -->
+    <div id="otpContainer" class="hidden mt-4 space-y-2">
+      <div class="flex justify-between items-center">
+        <div>
+          <strong class="text-gray-800">Enter OTP</strong>
+          <p class="text-sm text-gray-500" id="otpInstr">We sent a 6-digit OTP to your mobile. (Testing: OTP printed in console)</p>
+        </div>
+        <div id="otpStatus" class="text-sm text-right text-gray-600"></div>
       </div>
-      <h2 style="font-size:1.5rem;color:#22c55e;font-weight:bold;">Successfully Submitted</h2>
-      <p style="margin-top:10px;color:#333;">Thank you for applying! We'll get in touch soon.</p>
-      <button onclick="closeSuccessPopup()" style="margin-top:20px;background:#22c55e;color:white;padding:8px 24px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;">Close</button>
+
+      <div class="flex gap-2 items-center">
+        <input id="otpInput" type="text" placeholder="6-digit OTP" maxlength="6"
+          class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+        <button id="verifyOtpBtn" type="button" class="bg-green-600 text-white px-3 py-2 rounded-lg font-semibold hover:bg-green-700 transition">Verify OTP</button>
+        <button id="resendBtn" type="button" class="bg-gray-300 text-gray-700 px-3 py-2 rounded-lg font-semibold hover:bg-gray-400 transition">Resend</button>
+      </div>
+
+      <p class="text-sm text-gray-500 mt-1">
+        Expires in <strong id="countdown">02:00</strong>
+      </p>
     </div>
+  </form>
+</div>
+
+<!-- Invoice Overlay -->
+<div id="invoiceOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white rounded-xl p-6 max-w-md w-full relative">
+    <span id="closeInvoice" class="absolute top-2 right-4 cursor-pointer font-bold text-xl">&times;</span>
+    <h2 class="text-xl font-bold mb-2">Invoice</h2>
+    <div id="invoiceContent" class="text-gray-800 text-sm"></div>
+    <!-- <button id="downloadInvoice" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Download PDF</button> -->
   </div>
+</div>
+<div id="footer-placeholder"></div>
 
-  <script>
-    function closeSuccessPopup() {
-      document.getElementById('success-popup').style.display = 'none';
-    }
-  </script>
+<script>
+/* ---------------------------
+   Mock OTP + payment script
+   --------------------------- */
 
-  <!-- Footer CTA -->
-  <section class="text-center py-8 md:py-12 text-white px-4 md:px-8" style="background-color: #003153;">
-    <h2 class="text-xl font-semibold mb-4">Need Help?</h2>
-    <p>Contact our team via <a href="mailto:info@studentforge.in" class="underline text-blue-300">info@studentforge.in</a></p>
-  </section>
+(() => {
+  // Read course info from query params and show in the course field
+  // const params = new URLSearchParams(window.location.search);
+  // const courseNameFromQS = params.get('name') || 'Selected Course';
+  // const coursePriceFromQS = parseInt(params.get('price')) || 100; // rupees fallback
 
-  <!-- Footer -->
-  <footer style="background-color: black; color: white; padding: 4rem 1rem 2rem;">
-    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem;">
-        <div>
-            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
-                <img src="assets/temp_logo.png" alt="Student Forge Logo" style="height: 32px; width: 32px; margin-right: 0.7rem;">
-                <h3 style="font-size: 1.3rem; position: relative; margin: 0;">Student Forge
-                    <span style="display: block; width: 50px; height: 3px; background-color: #ff6b6b; margin-top: 0.5rem;"></span>
-                </h3>
-            </div>
-            <p style="text-align: justify;">Empowering students with in demand skills while fostering growth through hands on learning
-collaboration and access to real world opportunities in a community of future innovators.</p>
-            <br>
-            <br>
-            <div class="flex space-x-8 mb-4 md:mb-0 justify-center">
-  
-                <a href="https://www.instagram.com/studentforge?igsh=MW12eTRsbTJteTI4Zw==" target="_blank" rel="noopener" aria-label="Instagram">
-                    <img src="assets/instagram.png.png" alt="Instagram" class="h-7 w-7 hover:opacity-80">
-                </a>
-                <a href="https://www.linkedin.com/company/student-forge/" target="_blank" rel="noopener" aria-label="LinkedIn">
-                    <img src="assets/in.png.png" alt="LinkedIn" class="h-7 w-7 hover:opacity-80">
-                </a>
-                
-                <a href="https://youtube.com/@studentforge?si=oSjCYR07kIdxQZtV" target="_blank" rel="noopener" aria-label="YouTube">
-                    <img src="assets/yt.png.svg" alt="YouTube" class="h-7 w-7 hover:opacity-80">
-                </a>
-            </div>
-        </div>
-        <div style="margin-right: 5rem;">
-            <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; position: relative;">Quick Links
-                <span style="display: block; width: 50px; height: 3px; background-color: #ff6b6b; margin-top: 0.5rem;"></span>
-            </h3>
-            <ul style="list-style: none; padding: 0;">
-                <li style="margin-bottom: 1rem;"><a href="index.html" style="color: #ddd; text-decoration: none;">Home</a></li>
-                <li style="margin-bottom: 1rem;"><a href="learnwithforge.html" style="color: #ddd; text-decoration: none;">Learn with Forge</a></li>
-                <li style="margin-bottom: 1rem;"><a href="buildwithforge.html" style="color: #ddd; text-decoration: none;">Build with Forge</a></li>
-                <li style="margin-bottom: 1rem;"><a href="joinwithforge.html" style="color: #ddd; text-decoration: none;">Join with Forge</a></li>
-                <li style="margin-bottom: 1rem;"><a href="gallery.html" style="color: #ddd; text-decoration: none;">Gallery</a></li>
-                <li style="margin-bottom: 1rem;"><a href="applynow.html" style="color: #ddd; text-decoration: none;">Apply Now</a></li>
-            </ul>
-        </div>
-        <div style="margin-left: 0.1em;">
-            <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; position: relative;">Contact Us
-                <span style="display: block; width: 50px; height: 3px; background-color: #ff6b6b; margin-top: 0.5rem;"></span>
-            </h3>
-            <ul style="list-style: none; padding: 0; color: #ddd;">
-                <li style="margin-bottom: 1rem;">📍 H.no 10-11-860/5, Near Khammam New Bus Stand, Bypass Road, Raparthi Nagar, Khammam, Telangana, 507003</li>
-                <li style="margin-bottom: 1rem;">📞 6304218064</li>
-                <li style="margin-bottom: 1rem;">✉️ info@studentforge.in</li>
-                <li style="margin-bottom: 1rem;">🌐 <a href="https://studentforge.in" style="color: #ddd; text-decoration: none;">studentforge.in</a></li>
-            </ul>
-        </div>
-        <div>
-          <h2 style="font-family: inherit; font-weight: 800; font-size: 2.2rem;">Learn. Build. Succeed at Student Forge</h2>
-        </div>
-    </div>
-    <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #444; color: #999;">
-        <p>&copy; 2025 Student Forge. All rights reserved.</p>
-    </div>
-</footer>
+  // document.getElementById('courseName').value = courseNameFromQS;
 
-  <script>
-    // Highlight active navbar link
-    document.addEventListener('DOMContentLoaded', function() {
-      var links = document.querySelectorAll('.nav-zoom');
-      var current = window.location.pathname.split('/').pop();
-      links.forEach(function(link) {
-        if(link.getAttribute('href') === current) {
-          link.classList.add('active');
-        }
-      });
-      // Hamburger menu toggle
-      var hamburger = document.getElementById('hamburger-menu');
-      var mobileNav = document.getElementById('mobile-nav');
-      hamburger.addEventListener('click', function() {
-        mobileNav.classList.toggle('open');
-      });
-      // Close mobile nav when clicking outside
-      document.addEventListener('click', function(e) {
-        if (!mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
-          mobileNav.classList.remove('open');
-        }
-      });
+  // DOM refs
+  // Load courses.json into dropdown
+async function loadCoursesForForm() {
+  try {
+    const res = await fetch("courses.json");
+    const courses = await res.json();
+    const select = document.getElementById("courseSelect");
+
+    courses.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = JSON.stringify({ name: c.name, price: c.price });
+      opt.textContent = `${c.name} — ₹${c.price}`;
+      select.appendChild(opt);
     });
-  </script>
+
+    // Update when user selects
+    select.addEventListener("change", () => {
+      const selected = JSON.parse(select.value);
+      document.getElementById("coursePrice").textContent = selected.price;
+      window.selectedCourse = selected; // store globally
+    });
+  } catch (err) {
+    console.error("❌ Failed to load courses.json", err);
+  }
+}
+loadCoursesForForm();
+
+  const applyForm = document.getElementById('applyForm');
+  const sendOtpBtn = document.getElementById('sendOtpBtn');
+  const proceedPayBtn = document.getElementById('proceedPayBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const otpContainer = document.getElementById('otpContainer');
+  const otpInput = document.getElementById('otpInput');
+  const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+  const resendBtn = document.getElementById('resendBtn');
+  const countdownEl = document.getElementById('countdown');
+  const otpStatus = document.getElementById('otpStatus');
+
+  // OTP state
+  let generatedOTP = null;
+  let otpExpiryTs = 0;
+  let countdownTimer = null;
+  let resendCooldownTimer = null;
+  const OTP_TTL_MS = 2 * 60 * 1000; // 2 minutes
+  const RESEND_COOLDOWN_MS = 30 * 1000; // 30 seconds
+
+  // Helpers
+  function pad2(n){ return n<10? '0'+n : ''+n; }
+  function startCountdown() {
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(()=>{
+      const remaining = Math.max(0, otpExpiryTs - Date.now());
+      const mm = Math.floor(remaining / 60000);
+      const ss = Math.floor((remaining % 60000) / 1000);
+      countdownEl.textContent = `${pad2(mm)}:${pad2(ss)}`;
+      if (remaining <= 0) {
+        clearInterval(countdownTimer);
+        otpStatus.textContent = 'OTP expired';
+        verifyOtpBtn.disabled = true;
+      }
+    }, 250);
+  }
+
+  function startResendCooldown() {
+    resendBtn.disabled = true;
+    let remaining = RESEND_COOLDOWN_MS;
+    resendBtn.textContent = 'Resend (' + Math.ceil(remaining/1000) + 's)';
+    resendCooldownTimer = setInterval(()=> {
+      remaining -= 1000;
+      if (remaining <= 0) {
+        clearInterval(resendCooldownTimer);
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Resend';
+        return;
+      }
+      resendBtn.textContent = 'Resend (' + Math.ceil(remaining/1000) + 's)';
+    }, 1000);
+  }
+
+  function generateAndShowOTP() {
+    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    otpExpiryTs = Date.now() + OTP_TTL_MS;
+    console.log('%c[MOCK OTP] Use this OTP for testing:', 'color:green;font-weight:bold', generatedOTP);
+    otpStatus.textContent = 'OTP sent';
+    otpInput.value = '';
+    verifyOtpBtn.disabled = false;
+    otpContainer.classList.remove('hidden');
+    startCountdown();
+    startResendCooldown();
+    // show small alert so testers notice (you may remove this in future)
+    alert('Mock OTP sent (for testing). Check browser console for OTP.');
+  }
+
+  // Send OTP (on button click)
+  sendOtpBtn.addEventListener('click', (ev) => {
+    // validate basic form fields before sending OTP
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const interest = document.getElementById('interest').value;
+
+    if (!name || !email || !phone || !interest) {
+      alert('Please fill all required fields before requesting OTP.');
+      return;
+    }
+    if (!/^\d{10}$/.test(phone)) {
+      alert('Please enter a valid 10-digit phone number.');
+      return;
+    }
+    // Generate mock OTP and show UI
+    generateAndShowOTP();
+
+    // keep sendOtpBtn disabled while OTP is active to prevent duplicates
+    sendOtpBtn.disabled = true;
+    sendOtpBtn.textContent = 'OTP Sent';
+
+  });
+
+  // Resend OTP
+  resendBtn.addEventListener('click', () => {
+    // only allow if disabled state ended
+    if (resendBtn.disabled) return;
+    generateAndShowOTP();
+  });
+
+  // Verify OTP
+  verifyOtpBtn.addEventListener('click', async () => {
+    const typed = (otpInput.value || '').trim();
+    if (!typed) { alert('Enter the OTP'); return; }
+    if (!generatedOTP) { alert('No OTP generated yet. Click Send OTP.'); return; }
+    if (Date.now() > otpExpiryTs) { alert('OTP expired. Please resend.'); return; }
+
+   if (typed === generatedOTP) {
+  clearInterval(countdownTimer);
+  otpStatus.textContent = 'Verified ✓';
+  verifyOtpBtn.disabled = true;
+  resendBtn.disabled = true;
+  otpInput.disabled = true;
+
+  // ✅ Post to Google Sheet
+// ✅ Post to Google Sheet (FormData way)
+try {
+  const formData = new FormData(applyForm);
+  formData.append("timestamp", new Date().toLocaleString()); 
+  if (window.selectedCourse) {
+  formData.append("course", window.selectedCourse.name);
+  formData.append("price", window.selectedCourse.price);
+} else {
+  formData.append("course", "Not selected");
+  formData.append("price", "0");
+}
+
+
+  const resp = await fetch(
+    "https://script.google.com/macros/s/AKfycbzEkwnxYaGi0-DhOpFjg8E6Wi0vnRPy2h9j_5OfIhwGq1hPE0GztTRTelNwHkfHPK6f/exec",
+    {
+      method: "POST",
+      //headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData,
+    }
+  );
+
+
+
+  if (resp.status === 200) {
+    console.log("✅ Data sent to Google Sheets");
+    // now show Proceed to Pay button
+    proceedPayBtn.classList.remove("hidden");
+  } else {
+    alert("❌ Failed to submit data to Google Sheets");
+  }
+   proceedPayBtn.classList.remove("hidden");
+} catch (err) {
+  console.error("❌ Google Sheets error:", err);
+  alert("Error uploading to Google Sheets. Check console.");
+}
+
+   }
+ else {
+      alert('Invalid OTP — please try again.');
+    }
+  });
+  
+  // Reset form to initial state
+  resetBtn.addEventListener('click', ()=> {
+    // clear timers
+    clearInterval(countdownTimer);
+    clearInterval(resendCooldownTimer);
+    generatedOTP = null;
+    otpExpiryTs = 0;
+    otpContainer.classList.add('hidden');
+    otpInput.value = '';
+    otpInput.disabled = false;
+    verifyOtpBtn.disabled = false;
+    resendBtn.disabled = false;
+    sendOtpBtn.disabled = false;
+    sendOtpBtn.textContent = 'Submit & Send OTP';
+    proceedPayBtn.classList.add('hidden');
+    otpStatus.textContent = '';
+    countdownEl.textContent = '02:00';
+    // optionally clear form fields
+    // applyForm.reset();
+  });
+
+  // Proceed button (user may manually click)
+  proceedPayBtn.addEventListener('click', openRazorpayCheckout);
+
+  // Payment function: opens Razorpay Checkout (no backend order created here)
+//   function openRazorpayCheckout() {
+//     // gather form values
+//     const name = document.getElementById('name').value.trim();
+//     const email = document.getElementById('email').value.trim();
+//     const phone = document.getElementById('phone').value.trim();
+
+//     if (!name || !email || !phone) {
+//       alert('Missing user details — please fill the form.');
+//       return;
+//     }
+
+//     const options = {
+//       key: "rzp_test_RL9XyzhjRRghGr", // test key
+//       amount: (window.selectedCourse.price * 100), // amount in paise
+//       currency: "INR",
+//       name: "Student Forge",
+//       description: window.selectedCourse.name,
+//       prefill: { name, email, contact: phone },
+//       // handler: function (response) {
+//       //   // response.razorpay_payment_id, response.razorpay_signature (if order used),
+//       //   // you should verify on server in production
+//       //   console.log('Razorpay response', response);
+//       //   alert('Payment successful! payment id: ' + response.razorpay_payment_id);
+//       //   // Optionally: redirect to success page
+//       //   // window.location.href = 'success.html?payment_id=' + response.razorpay_payment_id;
+//       // },
+//       handler: async function (response) {
+//     console.log('Razorpay response', response);
+
+//     const paymentId = response.razorpay_payment_id;
+//     const timestamp = new Date().toISOString();
+
+//     // Build invoice HTML
+//     const invoiceHTML = `
+//      <p><strong>Course:</strong> ${window.selectedCourse.name}</p>
+//       <p><strong>Price:</strong> ₹${window.selectedCourse.price}</p>
+//       <p><strong>Name:</strong> ${document.getElementById('name').value}</p>
+//       <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
+//       <p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>
+//       <p><strong>Timestamp:</strong> ${timestamp}</p>
+//       <p><strong>Payment ID:</strong> ${paymentId}</p>
+//     `;
+//     document.getElementById('invoiceContent').innerHTML = invoiceHTML;
+//     document.getElementById('invoiceOverlay').classList.remove('hidden');
+
+//     // Close overlay
+//     document.getElementById('closeInvoice').onclick = () => {
+//       document.getElementById('invoiceOverlay').classList.add('hidden');
+//     };
+
+//     // Send to new Google Sheet
+//     try {
+//       const formData = new FormData();
+//       // formData.append('name', document.getElementById('name').value);
+//       // formData.append('phone', document.getElementById('phone').value);
+//       // formData.append('paymentId', paymentId);
+//       // formData.append('timestamp', timestamp);
+//       formData.append('timestamp', timestamp);
+// formData.append('course', window.selectedCourse.name);
+// formData.append('price', window.selectedCourse.price);
+// formData.append('name', document.getElementById('name').value);
+// formData.append('email', document.getElementById('email').value);
+// formData.append('phone', document.getElementById('phone').value);
+// formData.append('paymentId', paymentId);
+
+//       const resp = await fetch('https://script.google.com/macros/s/AKfycbyaG3OIrsRulSa1bA75UexqdylgmOHorOA2wIAI4ApydyoesNOt9R1R_qP_pEg8esXO/exec', {
+//         method: 'POST',
+//         body: formData,
+//         //mode: "no-cors"
+//       });
+
+//       if (resp.status === 200) console.log('✅ Invoice data sent to Google Sheet');
+//       else console.warn('❌ Failed to send to Google Sheet');
+
+//     } catch (err) {
+//       console.error('Error sending to Google Sheet', err);
+//     }
+// },
+// // After setting invoiceContent.innerHTML
+
+
+
+//       theme: { color: "#003153" }
+//     };
+
+//     const rzp = new Razorpay(options);
+//     rzp.open();
+//   }
+  // }-----------------------------------------------------------------------------------------------------
+
+async function openRazorpayCheckout() {
+  if (!window.selectedCourse) {
+    alert("Select a course first");
+    return;
+  }
+
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  if (!name || !email || !phone) {
+    alert('Fill all user details first');
+    return;
+  }
+
+  try {
+    // Step 1: Request server to create order
+    const orderResp = await fetch('http://localhost:3000/create_order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ course: window.selectedCourse.name })
+    });
+    const orderData = await orderResp.json();
+
+    if (orderData.error) {
+      alert("Order creation failed: " + orderData.error);
+      return;
+    }
+
+    // Step 2: Open Razorpay Checkout
+    const options = {
+      key: 'rzp_test_RL9XyzhjRRghGr', // Test key ok to expose
+      amount: orderData.amount,
+      currency: orderData.currency,
+      name: "Student Forge",
+      description: orderData.course,
+      order_id: orderData.order_id,
+      prefill: { name, email, contact: phone },
+      handler: async function(response) {
+        console.log("Razorpay response:", response);
+
+        // Step 3: Verify payment with server
+        const verifyResp = await fetch('http://localhost:3000/verify_payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            order_id: response.razorpay_order_id,
+            payment_id: response.razorpay_payment_id,
+            signature: response.razorpay_signature
+          })
+        });
+        const verifyData = await verifyResp.json();
+
+        if (verifyData.valid) {
+          alert('Payment verified successfully!');
+
+          // ✅ Existing Google Sheet / OTP flow remains
+          // You can now send paymentId + timestamp to Google Sheet
+          const formData = new FormData(applyForm);
+          formData.append('paymentId', response.razorpay_payment_id);
+          formData.append('timestamp', new Date().toISOString());
+          formData.append('course', window.selectedCourse.name);
+          formData.append('price', window.selectedCourse.price);
+
+          await fetch('https://script.google.com/macros/s/AKfycbyaG3OIrsRulSa1bA75UexqdylgmOHorOA2wIAI4ApydyoesNOt9R1R_qP_pEg8esXO/exec', { method: 'POST', body: formData });
+   
+   
+
+          // Show invoice overlay
+          document.getElementById('invoiceContent').innerHTML = `
+            <p><strong>Course:</strong> ${window.selectedCourse.name}</p>
+            <p><strong>Price:</strong> ₹${window.selectedCourse.price}</p>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Payment ID:</strong> ${response.razorpay_payment_id}</p>
+          `;
+          document.getElementById('invoiceOverlay').classList.remove('hidden');
+
+        } else {
+          alert('Payment verification failed. Contact support.');
+        }
+      },
+      theme: { color: "#003153" }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+
+  } catch (err) {
+    console.error("Payment error:", err);
+    alert("Error initiating payment. Try again.");
+  }
+}
+
+
+//-----------------
+function downloadInvoicePDF() {
+  const overlay = document.getElementById('invoiceOverlay');
+  const element = document.getElementById('invoiceContent');
+
+  // Make overlay and content visible temporarily
+  overlay.style.display = 'flex';
+  element.style.display = 'block';
+
+  // Give the DOM a tick to render
+  setTimeout(() => {
+    html2pdf()
+      .set({
+        margin: 0.5,
+        filename: `${window.selectedCourse.name}_Invoice.pdf`,
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      })
+      .from(element)
+      .save();
+  }, 100);
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Load nav and footer only after whole DOM & Tailwind are ready
+    loadHTML("#nav-placeholder", "nav.html");
+    loadHTML("#footer-placeholder", "footer.html");
+});
+
+
+
+// document.getElementById('downloadInvoice').addEventListener('click', downloadInvoicePDF);
+
+function loadHTML(selector, file) {
+            fetch(file)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Could not fetch ${file}`);
+                    return response.text();
+                })
+                .then(data => {
+                    document.querySelector(selector).innerHTML = data;
+
+                    // Re-run nav JS after loading nav dynamically
+                    if (selector === "#nav-placeholder") {
+                        const hamburger = document.getElementById('hamburger-menu');
+                        const mobileNav = document.getElementById('mobile-nav');
+                        if(hamburger && mobileNav) {
+                            hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+                            document.addEventListener('click', e => {
+                                if (!mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
+                                    mobileNav.classList.remove('open');
+                                }
+                            });
+                        }
+
+                        // Highlight active link
+                        var links = document.querySelectorAll('.nav-zoom');
+                        var current = window.location.pathname.split('/').pop();
+                        links.forEach(link => {
+                            if(link.getAttribute('href') === current) link.classList.add('active');
+                        });
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+
+        // Load nav and footer
+        loadHTML("#nav-placeholder", "nav.html");
+        loadHTML("#footer-placeholder", "footer.html");
+
+})();
+
+</script>
 </body>
-
 </html>
-
-

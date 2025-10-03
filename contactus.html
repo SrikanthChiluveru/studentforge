@@ -1,25 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Business Services | Student Forge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact to Student Forge</title>
   <link rel="icon" type="image/png" href="assets/temp_logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Loading Animation */
+    .loading-spinner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.4);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #22c55e;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     .nav-zoom {
       transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s, background 0.25s;
     }
-
-    .nav-zoom:hover,
-    .nav-zoom.active {
+    .nav-zoom:hover, .nav-zoom.active {
       transform: scale(1.15);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
       background: transparent;
       color: #fff;
     }
-
     .hamburger {
       display: flex;
       flex-direction: column;
@@ -29,7 +51,6 @@
       cursor: pointer;
       z-index: 60;
     }
-
     .hamburger span {
       height: 3px;
       width: 100%;
@@ -38,11 +59,9 @@
       border-radius: 2px;
       transition: 0.3s;
     }
-
     .mobile-nav {
       display: none;
     }
-
     .mobile-nav.open {
       display: block;
       position: absolute;
@@ -50,41 +69,34 @@
       left: 0;
       width: 100vw;
       background: #111;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
       z-index: 55;
     }
-
     @media (max-width: 768px) {
       .desktop-nav {
         display: none !important;
       }
-
       .hamburger {
         display: flex !important;
       }
     }
-
     @media (min-width: 769px) {
       .mobile-nav {
         display: none !important;
       }
-
       .hamburger {
         display: none !important;
       }
     }
   </style>
 </head>
-
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-50 text-gray-800">
 
   <!-- Navbar -->
   <nav class="bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-between items-center sticky top-0 z-50 relative">
     <div class="flex items-center">
-      <img src="assets/temp_logo.png" alt="Student Forge Logo" class="h-12 w-18 mr-2 cursor-pointer"
-        onclick="window.location.href='index.html'">
-      <span class="text-xl font-bold cursor-pointer mb-2 md:mb-0"
-        onclick="window.location.href='index.html'">STUDENT FORGE</span>
+      <img src="assets/temp_logo.png" alt="Student Forge Logo" class="h-12 w-18 mr-2 cursor-pointer" onclick="window.location.href='index.html'">
+      <span class="text-xl font-bold cursor-pointer mb-2 md:mb-0" onclick="window.location.href='index.html'">STUDENT FORGE</span>
     </div>
     <!-- Hamburger Icon -->
     <div class="hamburger md:hidden" id="hamburger-menu">
@@ -93,13 +105,12 @@
       <span></span>
     </div>
     <!-- Desktop Navbar -->
-    <ul
-      class="desktop-nav flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 text-sm w-full md:w-auto">
+    <ul class="desktop-nav flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 text-sm w-full md:w-auto">
       <li><a href="index.html" class="nav-zoom block text-center">Home</a></li>
       <li><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
       <li><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
       <li><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
-      <li><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
+      <li><a href="gallery.html" class="nav-zoom block text-center">Events</a></li>
       <li><a href="contactus.html" class="nav-zoom block text-center">Contact Us</a></li>
     </ul>
     <!-- Mobile Navbar -->
@@ -108,117 +119,104 @@
       <li class="mb-2"><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
       <li class="mb-2"><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
       <li class="mb-2"><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
-      <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
+      <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Events</a></li>
       <li><a href="contactus.html" class="nav-zoom block text-center">Contact Us</a></li>
     </ul>
   </nav>
 
-  <!-- Section Header -->
-  <section class="text-white py-10 md:py-16 px-4 md:px-8 text-center" style="background-color: #003153; background-image: url('assets/business.png'); background-size: cover; background-position: center;">
-    <div class="flex flex-col items-center mb-4">
-      <img src="assets/ba.jpg" alt="Business Services Logo" class="h-16 w-16 mb-2">
-      <h1 class="text-2xl md:text-4xl font-bold mb-2 leading-tight">Business Services by Student Forge</h1>
-      <p class="text-base md:text-lg max-w-xl mx-auto">Everything your business needs to grow.</p>
+  <!-- Contact us Now Header -->
+<section class="text-white text-center py-10 md:py-16 px-4 md:px-8" style="background-color: #003153;">
+    <h1 class="text-2xl md:text-4xl font-bold mb-3">Contact to Student Forge</h1>
+    <p class="max-w-xl mx-auto text-base md:text-lg">Join our dynamic community of learners, builders, and leaders.</p>
+  </section>
+
+  <!-- Application Form -->
+  <section class="bg-white py-8 md:py-12 px-4 md:px-20">
+    <div class="max-w-3xl mx-auto bg-gray-100 p-4 md:p-8 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-6 text-center">Get in Touch With Us</h2>
+      <form id="submit-to-google-sheet" class="space-y-6">
+        <div>
+          <input type="text" name="name" required class="w-full p-3 rounded border border-gray-300" placeholder="Name"/>
+        </div>
+        <div>
+          <input type="text" name="bname" required class="w-full p-3 rounded border border-gray-300" placeholder="College/BusinessName"/>
+        </div>
+        <div>
+          <input type="email" name="email" required class="w-full p-3 rounded border border-gray-300" placeholder="Email"/>
+        </div>
+        <div>
+          <input type="tel" name="phone" required class="w-full p-3 rounded border border-gray-300" placeholder="Mobile Number" pattern="[0-9]{10}" maxlength="10" minlength="10" inputmode="numeric" title="Please enter a 10-digit mobile number"/>
+        </div>
+        <div>
+          <select name="interest" required class="w-full p-3 rounded border border-gray-300">
+            <option value="" disabled selected>Category</option>
+            <option value="learning">Learn with Forge</option>
+            <option value="building">Build with Forge</option>
+            <option value="mentoring">Join with Forge</option>
+          </select>
+        </div>
+        <div>
+          <textarea name="message" rows="4" required class="w-full p-3 rounded border border-gray-300" placeholder="Your message..."></textarea>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="text-white px-6 py-3 rounded w-full md:w-auto" style="background-color: #003153;">
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
   </section>
 
-  <!-- What We Offer -->
-  <section class="py-8 md:py-12 px-4 md:px-12 bg-white text-center">
-    <h2 class="text-3xl md:text-4xl font-extrabold mb-2 text-blue-900 tracking-tight">Our Services</h2>
-    <p class="text-3xl md:text-4xl font-extrabold mb-2 text-black-900 tracking-tight">Tech + Design + Promotion
-      — All in One Place</p>
-    <div class="max-w-5xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div class="bg-white border border-gray-200 rounded-lg p-5 shadow flex flex-col items-center">
-          <div class="flex flex-col items-center mb-2 w-full">
-            <span class="text-2xl mr-2">💻</span>
-            <span class="font-bold text-center block w-full">Web Development</span>
-          </div>
-          <ul class="text-sm text-gray-700 list-disc pl-5 w-full text-left">
-            <li>Static & Dynamic Websites</li>
-            <li>Landing Pages</li>
-            <li>CMS-based Sites</li>
-          </ul>
-        </div>
-        <div class="bg-white border border-gray-200 rounded-lg p-5 shadow flex flex-col items-center">
-          <div class="flex flex-col items-center mb-2 w-full">
-            <span class="text-2xl mr-2">📱</span>
-            <span class="font-bold text-center block w-full">App Development</span>
-          </div>
-          <ul class="text-sm text-gray-700 list-disc pl-5 w-full text-left">
-            <li>Android / iOS Hybrid Apps</li>
-            <li>PWA, Lightweight</li>
-            <li>College Apps</li>
-          </ul>
-        </div>
-        <div class="bg-white border border-gray-200 rounded-lg p-5 shadow flex flex-col items-center">
-          <div class="flex flex-col items-center mb-2 w-full">
-            <span class="text-2xl mr-2">🎨</span>
-            <span class="font-bold text-center block w-full">UI/UX & Graphic Design</span>
-          </div>
-          <ul class="text-sm text-gray-700 list-disc pl-5 w-full text-left">
-            <li>App/Web UI Design</li>
-            <li>Posters, Flyers, Certificates</li>
-            <li>Event Brochures, PPTs</li>
-          </ul>
-        </div>
-        <div class="bg-white border border-gray-200 rounded-lg p-5 shadow flex flex-col items-center">
-          <div class="flex flex-col items-center mb-2 w-full">
-            <span class="text-2xl mr-2">📢</span>
-            <span class="font-bold text-center block w-full">Marketing & Promotions</span>
-          </div>
-          <ul class="text-sm text-gray-700 list-disc pl-5 w-full text-left">
-            <li>Social Media Ads</li>
-            <li>Instagram Reels / Posts</li>
-            <li>Ad Copy & Caption Writing</li>
-          </ul>
-        </div>
-        <div class="bg-white border border-gray-200 rounded-lg p-5 shadow flex flex-col items-center">
-          <div class="flex flex-col items-center mb-2 w-full">
-            <span class="text-2xl mr-2">🏷️</span>
-            <span class="font-bold text-center block w-full">Branding & Identity</span>
-          </div>
-          <ul class="text-sm text-gray-700 list-disc pl-5 w-full text-left">
-            <li>Logo Design</li>
-            <li>Color Palettes & Style Guides</li>
-            <li>Personal/Startup Branding Packs</li>
-          </ul>
-        </div>
-        <div class="bg-white border border-gray-200 rounded-lg p-5 shadow flex flex-col items-center">
-          <div class="flex flex-col items-center mb-2 w-full">
-            <span class="text-2xl mr-2">🚀</span>
-            <span class="font-bold text-center block w-full">Business Growth Support</span>
-          </div>
-          <ul class="text-sm text-gray-700 list-disc pl-5 w-full text-left">
-            <li>Strategy Support for Startups</li>
-            <li>Content & Communication Strategy</li>
-          </ul>
-        </div>
-      </div>
-      <div class="w-full py-10 px-4 md:px-12" style="background-color: #e0f2fe; border-radius: 24px;">
-        <h3 class="font-bold mb-6 text-2xl text-blue-900 text-center">Why Choose Us</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          <ul class="text-base text-blue-900 list-disc pl-8 space-y-4">
-            <li class="bg-blue-900 text-white font-medium rounded-full px-3 py-1 whitespace-nowrap shadow w-full md:w-auto text-center">Student-driven creativity</li>
-            <li class="bg-blue-900 text-white font-medium rounded-full px-3 py-1 whitespace-nowrap shadow w-full md:w-auto text-center">Affordable pricing</li>
-            <li class="bg-blue-900 text-white font-medium rounded-full px-3 py-1 whitespace-nowrap shadow w-full md:w-auto text-center">Fast delivery with quality</li>
-          </ul>
-          <ul class="text-base text-blue-900 list-disc pl-8 space-y-4">
-            <li class="bg-blue-900 text-white font-medium rounded-full px-3 py-1 whitespace-nowrap shadow w-full md:w-auto text-center">Support for NGOs and Colleges</li>
-            <li class="bg-blue-900 text-white font-medium rounded-full px-3 py-1 whitespace-nowrap shadow w-full md:w-auto text-center">Custom solutions for your brand</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwlE7jwHSuDIUnTJwLFHFsc5-hodA3uikFSsr0uu6mtItJNaMalhJjoAX5zNhqwUjxc/exec";
+    const form = document.getElementById("submit-to-google-sheet");
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      var formData = new FormData(form);
+      formData.append("timestamp", new Date().toLocaleString());
+    document.getElementById('loading-spinner').style.display = 'flex';
+    fetch(scriptURL, { method: "POST", body: formData, mode: "no-cors" })
+      .then(() => {
+        document.getElementById('loading-spinner').style.display = 'none';
+        document.getElementById('success-popup').style.display = 'flex';
+        form.reset();
+      })
+      .catch(err => {
+        document.getElementById('loading-spinner').style.display = 'none';
+        alert("Error: " + err);
+      });
+    });
+    </script>
 
-  <!-- Apply Now CTA -->
-  <section class="text-white text-center py-10 px-4 md:px-8" style="background-color: #003153;">
-    <h2 class="text-2xl md:text-3xl font-bold mb-4">Ready to build with Student Forge?</h2>
-    <button class="bg-white text-blue-900 px-6 py-3 rounded font-semibold hover:bg-gray-200 w-full md:w-auto"
-      onclick="window.location.href='contactus.html'">
-      Contact Us
-    </button>
+  <!-- Loading Spinner -->
+  <div id="loading-spinner" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Success Popup -->
+  <div id="success-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);z-index:2000;align-items:center;justify-content:center;">
+    <div style="background:white;padding:40px 30px;border-radius:20px;box-shadow:0 0 30px rgba(0,0,0,0.15);text-align:center;max-width:350px;position:relative;">
+      <div style="font-size:60px;color:#22c55e;margin-bottom:10px;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:60px;height:60px;display:inline-block;">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h2 style="font-size:1.5rem;color:#22c55e;font-weight:bold;">Successfully Submitted</h2>
+      <p style="margin-top:10px;color:#333;">Thank you for contacting us. We'll get in touch soon.</p>
+      <button onclick="closeSuccessPopup()" style="margin-top:20px;background:#22c55e;color:white;padding:8px 24px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function closeSuccessPopup() {
+      document.getElementById('success-popup').style.display = 'none';
+    }
+  </script>
+
+  <!-- Footer CTA -->
+  <section class="text-center py-8 md:py-12 text-white px-4 md:px-8" style="background-color: #003153;">
+    <h2 class="text-xl font-semibold mb-4">Need Help?</h2>
+    <p>Contact our team via <a href="mailto:info@studentforge.in" class="underline text-blue-300">info@studentforge.in</a></p>
   </section>
 
   <!-- Footer -->
@@ -267,7 +265,7 @@ collaboration and access to real world opportunities in a community of future in
                 <span style="display: block; width: 50px; height: 3px; background-color: #ff6b6b; margin-top: 0.5rem;"></span>
             </h3>
             <ul style="list-style: none; padding: 0; color: #ddd;">
-                <li style="margin-bottom: 1rem;">📍 H.no 10-11-860/5, Near Khammam New Bus Stand, Bypass Road, Raparthi Nagar, Khammam, Telangana, 507003</li>
+                <li style="margin-bottom: 1rem;">📍 H.no 10-11-860/5, Near Khammam new bus stand, bypass road, Raparthi Nagar, Khammam, Telangana, 507003</li>
                 <li style="margin-bottom: 1rem;">📞 6304218064</li>
                 <li style="margin-bottom: 1rem;">✉️ info@studentforge.in</li>
                 <li style="margin-bottom: 1rem;">🌐 <a href="https://studentforge.in" style="color: #ddd; text-decoration: none;">studentforge.in</a></li>
@@ -284,22 +282,22 @@ collaboration and access to real world opportunities in a community of future in
 
   <script>
     // Highlight active navbar link
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       var links = document.querySelectorAll('.nav-zoom');
       var current = window.location.pathname.split('/').pop();
-      links.forEach(function (link) {
-        if (link.getAttribute('href') === current) {
+      links.forEach(function(link) {
+        if(link.getAttribute('href') === current) {
           link.classList.add('active');
         }
       });
       // Hamburger menu toggle
       var hamburger = document.getElementById('hamburger-menu');
       var mobileNav = document.getElementById('mobile-nav');
-      hamburger.addEventListener('click', function () {
+      hamburger.addEventListener('click', function() {
         mobileNav.classList.toggle('open');
       });
       // Close mobile nav when clicking outside
-      document.addEventListener('click', function (e) {
+      document.addEventListener('click', function(e) {
         if (!mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
           mobileNav.classList.remove('open');
         }
