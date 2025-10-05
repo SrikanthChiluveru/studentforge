@@ -40,16 +40,20 @@
       }
       .mobile-nav {
         display: none;
+        /* keep it positioned but hidden by default; when opened it will appear on the right */
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        background: #111;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        z-index: 55;
+        max-width: 85vw; /* don't cover full width on small screens */
+        width: auto; /* width determined by content (or max-width) */
+        overflow: hidden;
       }
       .mobile-nav.open {
         display: block;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100vw;
-        background: #111;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-        z-index: 55;
       }
       @media (max-width: 768px) {
         .desktop-nav {
@@ -66,6 +70,29 @@
         .hamburger {
           display: none !important;
         }
+      }
+      /* New courses popup responsive tweaks */
+      #new-courses-popup { transition: opacity .25s ease; }
+      #new-courses-popup #course-content .course-name { display:block; font-weight:600; }
+      #new-courses-popup #course-content .course-desc { display:block; font-style:italic; margin-top:4px; }
+      /* Mobile: make popup compact and show only the course name in a single truncated line */
+      @media (max-width: 640px) {
+        #new-courses-popup {
+          width: auto; min-width: 140px; max-width: calc(100% - 48px);
+          padding: 8px 10px; right: 8px; top: 64px; border-radius:8px;
+        }
+        #new-courses-popup h3 { display:none; }
+        #new-courses-popup #course-content { line-height:1; }
+        #new-courses-popup #course-content .course-desc { display:none !important; }
+        #new-courses-popup #course-content .course-name {
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size:14px;
+        }
+      }
+      /* Close button styling to avoid overlapping content on small screens */
+      #close-new-course { position:absolute; top:6px; right:8px; background:transparent; border:none; color:#fff; font-size:18px; line-height:1; cursor:pointer; padding:4px; border-radius:6px; }
+      @media (max-width: 640px) {
+        #new-courses-popup { padding-right: 44px; }
+        #close-new-course { right:10px; top:8px; font-size:20px; padding:6px; background: rgba(255,255,255,0.06); }
       }
     </style>
 </head>
@@ -96,8 +123,8 @@
             <li><a href="forgeelevate.html" class="nav-zoom block text-center">Forge Elevate</a></li>
             <li><a href="cources.html" class="nav-zoom block text-center">cources</a></li> -->
         </ul>
-        <!-- Mobile Navbar -->
-        <ul class="mobile-nav absolute left-0 w-full bg-black text-white text-sm px-4 py-4" id="mobile-nav">
+    <!-- Mobile Navbar -->
+    <ul class="mobile-nav bg-black text-white text-sm px-4 py-4" id="mobile-nav">
             <li class="mb-2"><a href="index.html" class="nav-zoom block text-center">Home</a></li>
             <li class="mb-2"><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
             <li class="mb-2"><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
@@ -342,6 +369,7 @@ collaboration and access to real world opportunities in a community of future in
 
     <!-- New Courses Popup -->
 <div id="new-courses-popup" class="fixed top-16 right-4 bg-blue-900 text-white rounded-lg shadow-lg p-4 w-72 opacity-0 pointer-events-none transition-opacity duration-500 z-50 hover:cursor-pointer">
+  <button id="close-new-course" aria-label="Close new courses" style="position:absolute;top:6px;right:8px;background:transparent;border:none;color:#fff;font-size:18px;line-height:1;cursor:pointer;">&times;</button>
   <h3 class="text-lg font-bold mb-2">New Course</h3>
   <div id="course-content" class="text-sm leading-snug"></div>
 </div>
@@ -391,6 +419,16 @@ collaboration and access to real world opportunities in a community of future in
       document.addEventListener('DOMContentLoaded', function() {
   const popup = document.getElementById('new-courses-popup');
   const content = document.getElementById('course-content');
+  const closeBtn = document.getElementById('close-new-course');
+  let popupDismissed = false; // keep dismissal for the session (page load)
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      popupDismissed = true;
+      popup.classList.add('opacity-0', 'pointer-events-none');
+    });
+  }
 
 const navbar = document.querySelector('nav');
 const navbarHeight = navbar.offsetHeight;
@@ -409,12 +447,12 @@ popup.style.top = `${navbarHeight + 10}px`; // 10px space below navbar
       let index = 0;
 
       function showCourse(course) {
+        if (popupDismissed) return; // do not show if user dismissed for this session
         console.log("Showing course:", course);
-        // Construct course html
+        // Construct course html (separate name / desc so mobile can hide desc)
         content.innerHTML = `
-          <p class="font-semibold">${course.name}</p>
-          <p class="italic">${course.desc}</p>
-         
+          <p class="course-name">${course.name}</p>
+          <p class="course-desc">${course.desc}</p>
         `;
         popup.onclick = () => {
     window.location.href = course.link || "learnwithforge.html";
