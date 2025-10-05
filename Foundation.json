@@ -1,0 +1,370 @@
+[
+  {
+    "day": 1,
+    "date": "02/07/2025",
+    "course": "Orientation",
+    "topic": "Fundamentals of Engineering",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 2,
+    "date": "03/07/2025",
+    "course": "Software Essentials",
+    "topic": "Introduction to Program: Types of Softwares, OS Fundamentals",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 3,
+    "date": "04/07/2025",
+    "course": "Computer Essentials",
+    "topic": "Input, storage, memory Management, Execution Flow",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 4,
+    "date": "05/07/2025",
+    "course": "Communication Activity",
+    "topic": "DEBATE & Discussion",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 5,
+    "date": "07/07/2025",
+    "course": "Computer Essentials",
+    "topic": "Network Admistration | TCP/IP Protocols",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 6,
+    "date": "08/07/2025",
+    "course": "DevOps",
+    "topic": "SDLC",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 7,
+    "date": "09/07/2025",
+    "course": "DevOps",
+    "topic": "Version control System(Git & Github)",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 8,
+    "date": "10/07/2025",
+    "course": "Gen AI",
+    "topic": "Prompt Engineering and its types",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 9,
+    "date": "11/07/2025",
+    "course": "Gen AI",
+    "topic": "Techniques for Writing Effective prompts - Persona Pattern and Interview Pattern",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 10,
+    "date": "12/07/2025",
+    "course": "Communication Activity",
+    "topic": "Group Discussion",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 11,
+    "date": "14/07/2025",
+    "course": "Language Processors",
+    "topic": "Assemblers, Compilers and Interpreters | Programming language generations",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 12,
+    "date": "15/07/2025",
+    "course": "C Programming",
+    "topic": "Variables, Data Types and Operators",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 13,
+    "date": "16/07/2025",
+    "course": "C Programming",
+    "topic": "Control Structures - Functions and Procedures",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 14,
+    "date": "17/07/2025",
+    "course": "Communication Activity",
+    "topic": "Team Fun Activity",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 15,
+    "date": "18/07/2025",
+    "course": "C++ Programming",
+    "topic": "Variables, Data Types and Operators",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 16,
+    "date": "19/07/2025",
+    "course": "C++ Programming",
+    "topic": "Control Structures, Functions and Procedures",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 17,
+    "date": "21/07/2025",
+    "course": "Communication Activity",
+    "topic": "Quiz Mania",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 18,
+    "date": "22/07/2025",
+    "course": "Web Development",
+    "topic": "HTML",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 19,
+    "date": "23/07/2025",
+    "course": "Web Development",
+    "topic": "CSS",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 20,
+    "date": "24/07/2025",
+    "course": "Web Development",
+    "topic": "JavaScript",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 21,
+    "date": "25/07/2025",
+    "course": "Database",
+    "topic": "SQL & XML",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 22,
+    "date": "26/07/2025",
+    "course": "Java Programming",
+    "topic": "Variables, Data Types and Operations",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 23,
+    "date": "28/07/2025",
+    "course": "Java Programming",
+    "topic": "Control Structures, Functions and Procedures",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 24,
+    "date": "29/07/2025",
+    "course": "Python Programming",
+    "topic": "Variables, Data Types and Operations",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 25,
+    "date": "30/07/2025",
+    "course": "Python Programming",
+    "topic": "Control Structures, Functions and Procedures",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 26,
+    "date": "31/07/2025",
+    "course": "Communication Activity",
+    "topic": "JAM (Just A Minute)",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 27,
+    "date": "01/08/2025",
+    "course": "Data Structures",
+    "topic": "Arrays, Linked List",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 28,
+    "date": "02/08/2025",
+    "course": "Data Structures",
+    "topic": "Stacks, Queues",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 29,
+    "date": "04/08/2025",
+    "course": "Data Structures",
+    "topic": "Searching & Sorting Algorithms",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 30,
+    "date": "05/08/2025",
+    "course": "Communication Activity",
+    "topic": "Idea Pitching",
+    "intern": "Jayanth",
+    "hours": 1.5
+  },
+  {
+    "day": 31,
+    "date": "06/08/2025",
+    "course": "AI",
+    "topic": "AI/ ML Introduction",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 32,
+    "date": "07/08/2025",
+    "course": "AI",
+    "topic": "Deep Learning & Neural Networks",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 33,
+    "date": "08/08/2025",
+    "course": "AI",
+    "topic": "Build your first ML project",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 34,
+    "date": "09/08/2025",
+    "course": "DS",
+    "topic": "Introduction to Data Science",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 35,
+    "date": "11/08/2025",
+    "course": "DS",
+    "topic": "NLP and Data Mining",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 36,
+    "date": "12/08/2025",
+    "course": "DS",
+    "topic": "Big Data and Data Analysis",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 37,
+    "date": "13/08/2025",
+    "course": "Gen AI",
+    "topic": "Introduction to Gen AI, LLMs, RAGs, Langchain",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 38,
+    "date": "14/08/2025",
+    "course": "Emerging Tech",
+    "topic": "Block Chain Technology",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 39,
+    "date": "15/08/2025",
+    "course": "Emerging Tech",
+    "topic": "Cloud Computing & CSP(GCP,Azure,AWS)",
+    "intern": "Snigdha",
+    "hours": 1.5
+  },
+  {
+    "day": 40,
+    "date": "16/08/2025",
+    "course": "Emerging Tech",
+    "topic": "Introduction to IoT and Smart Devices",
+    "intern": "Anil",
+    "hours": 1.5
+  },
+  {
+    "day": 41,
+    "date": "18/08/2025",
+    "course": "Cyber Security",
+    "topic": "Introduction to Cybersecurity & Network Security Fundamentals",
+    "intern": "Gourishanker",
+    "hours": 1.5
+  },
+  {
+    "day": 42,
+    "date": "19/08/2025",
+    "course": "Cyber Security",
+    "topic": "Authentication and Access Control",
+    "intern": "Gourishanker",
+    "hours": 1.5
+  },
+  {
+    "day": 43,
+    "date": "20/08/2025",
+    "course": "Cyber Security",
+    "topic": "Web Application Security Basics",
+    "intern": "Gourishanker",
+    "hours": 1.5
+  },
+  {
+    "day": 44,
+    "date": "21/08/2025",
+    "course": "Cyber Security",
+    "topic": "Data Security and Privacy",
+    "intern": "Gourishanker",
+    "hours": 1.5
+  },
+  {
+    "day": 45,
+    "date": "22/08/2025",
+    "course": "Cyber Security",
+    "topic": "Security Awareness and Best Practices",
+    "intern": "Gourishanker",
+    "hours": 1.5
+  },
+  {
+    "day": 46,
+    "date": "23/08/2025",
+    "course": "Communication Activity",
+    "topic": "Cyber debate (Privacy vs Protection)",
+    "intern": "Gourishanker",
+    "hours": 1.5
+  }
+]

@@ -40,18 +40,20 @@
     }
 
     .mobile-nav {
-      display: none;
-    }
-
-    .mobile-nav.open {
-      display: block;
       position: absolute;
       top: 60px;
-      left: 0;
-      width: 100vw;
+      right: 10px;
       background: #111;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
       z-index: 55;
+      max-width: 85vw;
+      width: auto;
+      overflow: hidden;
+      display: none;
+    }
+    .mobile-nav.open {
+      display: block;
     }
 
     @media (max-width: 768px) {
@@ -99,16 +101,16 @@
       <li><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
       <li><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
       <li><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
-      <li><a href="gallery.html" class="nav-zoom block text-center">Events</a></li>
+      <li><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
       <li><a href="contactus.html" class="nav-zoom block text-center">Contact Us</a></li>
     </ul>
     <!-- Mobile Navbar -->
-    <ul class="mobile-nav absolute left-0 w-full bg-black text-white text-sm px-4 py-4" id="mobile-nav">
+    <ul class="mobile-nav bg-black text-white text-sm px-4 py-4" id="mobile-nav">
       <li class="mb-2"><a href="index.html" class="nav-zoom block text-center">Home</a></li>
       <li class="mb-2"><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
       <li class="mb-2"><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
       <li class="mb-2"><a href="joinwithforge.html" class="nav-zoom block text-center">Join with Forge</a></li>
-      <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Events</a></li>
+      <li class="mb-2"><a href="gallery.html" class="nav-zoom block text-center">Gallery</a></li>
       <li><a href="contactus.html" class="nav-zoom block text-center">Contact Us</a></li>
     </ul>
   </nav>
@@ -309,4 +311,3 @@ collaboration and access to real world opportunities in a community of future in
 </body>
 
 </html>
-
