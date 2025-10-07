@@ -24,34 +24,9 @@
 
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <!-- Firebase SDK (compat builds for namespaced API) -->
-  <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js"></script>
-
-<script>
-  // Your Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyDZ9y9QrrdFK9PNwn4DxlqNKz1Ofs-DQ2g",
-    authDomain: "studentforge-1a3de.firebaseapp.com",
-    projectId: "studentforge-1a3de",
-    storageBucket: "studentforge-1a3de.firebasestorage.app",
-    messagingSenderId: "997926101451",
-    appId: "1:997926101451:web:31cdfa4cc2e82660b7964e",
-    measurementId: "G-2XQ4F9ECGL"
-  };
-  firebase.initializeApp(firebaseConfig);
-</script>
-
 </head>
 <body>
   <div id="nav-placeholder"></div>
-  <!-- Loader Animation -->
-  <div id="loaderOverlay" class="hidden fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-    <div class="flex flex-col items-center">
-      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"></div>
-      <span class="text-white text-lg font-semibold">Processing Payment...</span>
-    </div>
-  </div>
  <div class="max-w-lg mx-auto mt-12 p-8 bg-white shadow-lg rounded-xl border border-gray-200">
   <h1 class="text-2xl font-bold mb-2 text-gray-900">Enroll to Student Forge</h1>
   <p class="text-gray-600 mb-6">Fill details below → verify OTP (testing) → proceed to payment.</p>
@@ -98,7 +73,6 @@
       <input id="phone" name="phone" type="tel" placeholder="10-digit mobile (e.g. 9876543210)" pattern="[0-9]{10}" maxlength="10" required
         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
       <p class="text-sm text-gray-500 mt-1">OTP will be generated for demo and printed in console (testing only).</p>
-    <div id="recaptcha-container" class="mt-2"></div>
     </div>
 
     <!-- Category -->
@@ -163,7 +137,20 @@
 <div id="footer-placeholder"></div>
 
 <script>
+/* ---------------------------
+   Mock OTP + payment script
+   --------------------------- */
+
 (() => {
+  // Read course info from query params and show in the course field
+  // const params = new URLSearchParams(window.location.search);
+  // const courseNameFromQS = params.get('name') || 'Selected Course';
+  // const coursePriceFromQS = parseInt(params.get('price')) || 100; // rupees fallback
+
+  // document.getElementById('courseName').value = courseNameFromQS;
+
+  // DOM refs
+  // Load courses.json into dropdown
 async function loadCoursesForForm() {
   try {
     const res = await fetch("courses.json");
@@ -183,49 +170,12 @@ async function loadCoursesForForm() {
       document.getElementById("coursePrice").textContent = selected.price;
       window.selectedCourse = selected; // store globally
     });
-
-    // If the page was opened with ?course=...&price=..., preselect that course
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const courseParam = params.get('course');
-      const priceParam = params.get('price');
-      if (courseParam) {
-        // Try to find existing option matching the course name
-        let found = null;
-        for (const opt of Array.from(select.options)) {
-          if (!opt.value) continue;
-          try {
-            const val = JSON.parse(opt.value);
-            if (val && String(val.name) === courseParam) { found = val; select.value = opt.value; break; }
-          } catch (e) { /* ignore */ }
-        }
-
-        // If not found in courses.json, inject a new option
-        if (!found) {
-          const injected = { name: courseParam, price: Number(priceParam) || 0 };
-          const opt = document.createElement('option');
-          opt.value = JSON.stringify(injected);
-          opt.textContent = `${injected.name} — ₹${injected.price}`;
-          select.appendChild(opt);
-          select.value = opt.value;
-          found = injected;
-        }
-
-        // Apply the selection to UI/state
-        const sel = found || null;
-        if (sel) {
-          document.getElementById('coursePrice').textContent = sel.price;
-          window.selectedCourse = sel;
-        }
-      }
-    } catch (err) {
-      console.warn('Could not parse URL params for course preselect', err);
-    }
   } catch (err) {
     console.error("❌ Failed to load courses.json", err);
   }
 }
 loadCoursesForForm();
+
   const applyForm = document.getElementById('applyForm');
   const sendOtpBtn = document.getElementById('sendOtpBtn');
   const proceedPayBtn = document.getElementById('proceedPayBtn');
@@ -237,191 +187,158 @@ loadCoursesForForm();
   const countdownEl = document.getElementById('countdown');
   const otpStatus = document.getElementById('otpStatus');
 
-  // Timers / state for OTP UX
+  // OTP state
+  let generatedOTP = null;
+  let otpExpiryTs = 0;
   let countdownTimer = null;
   let resendCooldownTimer = null;
-  const RESEND_COOLDOWN = 30; // seconds before user can request resend
-  const OTP_EXPIRY = 120; // OTP validity in seconds shown to user
+  const OTP_TTL_MS = 2 * 60 * 1000; // 2 minutes
+  const RESEND_COOLDOWN_MS = 30 * 1000; // 30 seconds
 
-  // Firebase phone auth flow (production-ready)
-  let confirmationResult = null;
-
- function initRecaptcha() {
-  try {
-    // If already initialized, skip re-creating/rendering it
-    if (window.recaptchaInitialized) {
-      return;
-    }
-
-    // Clear any previous verifier instance if present (best-effort)
-    if (window.recaptchaVerifier) {
-      try { window.recaptchaVerifier.clear(); } catch(e) { /* ignore */ }
-      try { delete window.recaptchaVerifier; } catch(e) {}
-    }
-
-    // Use invisible reCAPTCHA on very small screens to avoid layout issues.
-    const isVerySmall = window.innerWidth <= 420; // phones
-    const isSmall = window.innerWidth <= 640;
-
-    const opts = {
-      size: isVerySmall ? 'invisible' : 'normal',
-      callback: () => console.log('reCAPTCHA resolved')
-    };
-
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', opts);
-    window.recaptchaVerifier.render().then(widgetId => {
-      window.recaptchaWidgetId = widgetId;
-      window.recaptchaInitialized = true;
-      // If using invisible mode, hide the visible container to free layout space
-      const rc = document.getElementById('recaptcha-container');
-      if (rc) {
-        if (isVerySmall) {
-          rc.style.display = 'none';
-        } else if (isSmall) {
-          // slightly scale down reCAPTCHA on small screens
-          rc.style.transform = 'scale(0.85)';
-          rc.style.transformOrigin = 'left top';
-        } else {
-          rc.style.transform = '';
-          rc.style.display = '';
-        }
+  // Helpers
+  function pad2(n){ return n<10? '0'+n : ''+n; }
+  function startCountdown() {
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(()=>{
+      const remaining = Math.max(0, otpExpiryTs - Date.now());
+      const mm = Math.floor(remaining / 60000);
+      const ss = Math.floor((remaining % 60000) / 1000);
+      countdownEl.textContent = `${pad2(mm)}:${pad2(ss)}`;
+      if (remaining <= 0) {
+        clearInterval(countdownTimer);
+        otpStatus.textContent = 'OTP expired';
+        verifyOtpBtn.disabled = true;
       }
-    }).catch(err => {
-      // ignore 'already been rendered' error which happens when initRecaptcha is called multiple times
-      if (err && err.message && err.message.indexOf('already been rendered') !== -1) {
-        console.warn('reCAPTCHA already rendered - continuing');
-        window.recaptchaInitialized = true;
-      } else {
-        console.warn('recaptcha render error', err);
-      }
-    });
-  } catch (err) {
-    console.warn('initRecaptcha failed', err);
+    }, 250);
   }
-}
 
+  function startResendCooldown() {
+    resendBtn.disabled = true;
+    let remaining = RESEND_COOLDOWN_MS;
+    resendBtn.textContent = 'Resend (' + Math.ceil(remaining/1000) + 's)';
+    resendCooldownTimer = setInterval(()=> {
+      remaining -= 1000;
+      if (remaining <= 0) {
+        clearInterval(resendCooldownTimer);
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Resend';
+        return;
+      }
+      resendBtn.textContent = 'Resend (' + Math.ceil(remaining/1000) + 's)';
+    }, 1000);
+  }
 
-  // Send OTP using Firebase
-  sendOtpBtn.addEventListener('click', async () => {
+  function generateAndShowOTP() {
+    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    otpExpiryTs = Date.now() + OTP_TTL_MS;
+    console.log('%c[MOCK OTP] Use this OTP for testing:', 'color:green;font-weight:bold', generatedOTP);
+    otpStatus.textContent = 'OTP sent';
+    otpInput.value = '';
+    verifyOtpBtn.disabled = false;
+    otpContainer.classList.remove('hidden');
+    startCountdown();
+    startResendCooldown();
+    // show small alert so testers notice (you may remove this in future)
+    alert('Mock OTP sent (for testing). Check browser console for OTP.');
+  }
+
+  // Send OTP (on button click)
+  sendOtpBtn.addEventListener('click', (ev) => {
+    // validate basic form fields before sending OTP
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
-    const phoneVal = document.getElementById('phone').value.trim();
+    const phone = document.getElementById('phone').value.trim();
     const interest = document.getElementById('interest').value;
 
-    if (!name || !email || !phoneVal || !interest) {
+    if (!name || !email || !phone || !interest) {
       alert('Please fill all required fields before requesting OTP.');
       return;
     }
-    if (!/^\d{10}$/.test(phoneVal)) {
+    if (!/^\d{10}$/.test(phone)) {
       alert('Please enter a valid 10-digit phone number.');
       return;
     }
+    // Generate mock OTP and show UI
+    generateAndShowOTP();
 
-    initRecaptcha();
-    if (!window.recaptchaVerifier) {
-      console.error("❌ Recaptcha not initialized!");
-      otpStatus.textContent = '❌ reCAPTCHA not ready. Try refreshing the page.';
-      return;
-    }
+    // keep sendOtpBtn disabled while OTP is active to prevent duplicates
+    sendOtpBtn.disabled = true;
+    sendOtpBtn.textContent = 'OTP Sent';
 
-    const phone = '+91' + phoneVal;
-    try {
-      otpStatus.textContent = 'Sending OTP...';
-      sendOtpBtn.disabled = true;
-      confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier);
-      otpStatus.textContent = '✅ OTP sent';
-      otpContainer.classList.remove('hidden');
-
-      // Start OTP expiry countdown UI
-      startOtpCountdown(OTP_EXPIRY);
-
-      // Start resend cooldown
-      disableResendFor(RESEND_COOLDOWN);
-    } catch (err) {
-      console.error('sendOtp error', err);
-      otpStatus.textContent = '❌ ' + friendlyError(err);
-      sendOtpBtn.disabled = false;
-      // reset recaptcha if needed
-      if (window.recaptchaVerifier) window.recaptchaVerifier.clear && window.recaptchaVerifier.clear();
-    }
   });
 
-  // Resend: re-init recaptcha and call signInWithPhoneNumber again
-  resendBtn.addEventListener('click', async () => {
-    const phoneVal = document.getElementById('phone').value.trim();
-    if (!/^\d{10}$/.test(phoneVal)) { alert('Enter a valid phone to resend'); return; }
+  // Resend OTP
+  resendBtn.addEventListener('click', () => {
+    // only allow if disabled state ended
     if (resendBtn.disabled) return;
-    initRecaptcha();
-    try {
-      otpStatus.textContent = 'Resending OTP...';
-      resendBtn.disabled = true;
-      confirmationResult = await firebase.auth().signInWithPhoneNumber('+91' + phoneVal, window.recaptchaVerifier);
-      otpStatus.textContent = '✅ OTP resent';
-      otpContainer.classList.remove('hidden');
-
-      // Restart OTP expiry and resend cooldown
-      startOtpCountdown(OTP_EXPIRY);
-      disableResendFor(RESEND_COOLDOWN);
-    } catch (err) {
-      console.error('resend error', err);
-      otpStatus.textContent = '❌ ' + friendlyError(err);
-      resendBtn.disabled = false;
-      if (window.recaptchaVerifier) window.recaptchaVerifier.clear && window.recaptchaVerifier.clear();
-    }
+    generateAndShowOTP();
   });
 
   // Verify OTP
   verifyOtpBtn.addEventListener('click', async () => {
-    const otp = otpInput.value.trim();
-    if (!confirmationResult) { alert('Send OTP first'); return; }
-    if (!otp || otp.length !== 6) { alert('Enter 6-digit OTP'); return; }
+    const typed = (otpInput.value || '').trim();
+    if (!typed) { alert('Enter the OTP'); return; }
+    if (!generatedOTP) { alert('No OTP generated yet. Click Send OTP.'); return; }
+    if (Date.now() > otpExpiryTs) { alert('OTP expired. Please resend.'); return; }
 
-    try {
-      const result = await confirmationResult.confirm(otp);
-      const user = result.user;
-      otpStatus.textContent = '🎉 Phone verified';
-      otpInput.disabled = true;
-      verifyOtpBtn.disabled = true;
-      proceedPayBtn.classList.remove('hidden');
+   if (typed === generatedOTP) {
+  clearInterval(countdownTimer);
+  otpStatus.textContent = 'Verified ✓';
+  verifyOtpBtn.disabled = true;
+  resendBtn.disabled = true;
+  otpInput.disabled = true;
 
-      // Send verified phone to server (optional)
-      // Grab ID token (JWT) to allow server-side verification of this auth session
-      let idToken = null;
-      try {
-        idToken = await user.getIdToken();
-      } catch (tErr) { console.warn('Could not get idToken', tErr); }
+  // ✅ Post to Google Sheet
+// ✅ Post to Google Sheet (FormData way)
+try {
+  const formData = new FormData(applyForm);
+  formData.append("timestamp", new Date().toLocaleString()); 
+  if (window.selectedCourse) {
+  formData.append("course", window.selectedCourse.name);
+  formData.append("price", window.selectedCourse.price);
+} else {
+  formData.append("course", "Not selected");
+  formData.append("price", "0");
+}
 
-      fetch('https://sf-backend-c4so.onrender.com/verify_phone', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: user.phoneNumber, idToken })
-      }).then(r => r.json()).then(d => console.log('server verify phone:', d)).catch(() => {});
 
-      // After verification, submit the form data to Google Sheets (same flow as before)
-      try {
-        document.getElementById('loaderOverlay').classList.remove('hidden');
-        const formData = new FormData(applyForm);
-        formData.append('timestamp', new Date().toLocaleString());
-        if (window.selectedCourse) { formData.append('course', window.selectedCourse.name); formData.append('price', window.selectedCourse.price); }
-        else { formData.append('course','Not selected'); formData.append('price','0'); }
+  const resp = await fetch(
+    "https://script.google.com/macros/s/AKfycbzEkwnxYaGi0-DhOpFjg8E6Wi0vnRPy2h9j_5OfIhwGq1hPE0GztTRTelNwHkfHPK6f/exec",
+    {
+      method: "POST",
+      //headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData,
+    }
+  );
 
-        const resp = await fetch('https://script.google.com/macros/s/AKfycbzEkwnxYaGi0-DhOpFjg8E6Wi0vnRPy2h9j_5OfIhwGq1hPE0GztTRTelNwHkfHPK6f/exec', { method: 'POST', body: formData });
-        setTimeout(()=>{ document.getElementById('loaderOverlay').classList.add('hidden'); if (resp.status===200) proceedPayBtn.classList.remove('hidden'); else alert('Failed to submit data to Google Sheets'); }, 1200);
-      } catch (err) { document.getElementById('loaderOverlay').classList.add('hidden'); console.error('sheets err', err); }
 
-    } catch (err) {
-      console.error('confirm error', err);
-      otpStatus.textContent = '❌ ' + friendlyError(err);
+
+  if (resp.status === 200) {
+    console.log("✅ Data sent to Google Sheets");
+    // now show Proceed to Pay button
+    proceedPayBtn.classList.remove("hidden");
+  } else {
+    alert("❌ Failed to submit data to Google Sheets");
+  }
+   proceedPayBtn.classList.remove("hidden");
+} catch (err) {
+  console.error("❌ Google Sheets error:", err);
+  alert("Error uploading to Google Sheets. Check console.");
+}
+
+   }
+ else {
+      alert('Invalid OTP — please try again.');
     }
   });
   
   // Reset form to initial state
   resetBtn.addEventListener('click', ()=> {
     // clear timers
-    if (countdownTimer) clearInterval(countdownTimer);
-    if (resendCooldownTimer) clearInterval(resendCooldownTimer);
-    confirmationResult = null;
-    // sign out firebase user state if any
-    try { firebase.auth().signOut().catch(()=>{}); } catch(e) {}
+    clearInterval(countdownTimer);
+    clearInterval(resendCooldownTimer);
+    generatedOTP = null;
+    otpExpiryTs = 0;
     otpContainer.classList.add('hidden');
     otpInput.value = '';
     otpInput.disabled = false;
@@ -434,69 +351,102 @@ loadCoursesForForm();
     countdownEl.textContent = '02:00';
     // optionally clear form fields
     // applyForm.reset();
-    // Attempt to clear reCAPTCHA so it can be re-rendered later without error
-    try {
-      if (window.recaptchaVerifier && typeof window.recaptchaVerifier.clear === 'function') {
-        window.recaptchaVerifier.clear();
-      }
-      window.recaptchaInitialized = false;
-      // clear recaptcha container markup (widget may recreate it cleanly)
-      const rc = document.getElementById('recaptcha-container'); if (rc) rc.innerHTML = '';
-      delete window.recaptchaVerifier;
-      delete window.recaptchaWidgetId;
-    } catch(e) { /* ignore */ }
   });
-
-  // Helper: start OTP countdown and update UI
-  function startOtpCountdown(seconds) {
-    if (countdownTimer) clearInterval(countdownTimer);
-    let remaining = seconds;
-    updateCountdown(remaining);
-    countdownTimer = setInterval(() => {
-      remaining -= 1;
-      updateCountdown(remaining);
-      if (remaining <= 0) {
-        clearInterval(countdownTimer);
-        otpStatus.textContent = '⏳ OTP expired. Please resend.';
-        // allow resend
-        resendBtn.disabled = false;
-        sendOtpBtn.disabled = false;
-      }
-    }, 1000);
-  }
-
-  function updateCountdown(seconds) {
-    const mm = String(Math.floor(seconds/60)).padStart(2,'0');
-    const ss = String(seconds%60).padStart(2,'0');
-    countdownEl.textContent = `${mm}:${ss}`;
-  }
-
-  function disableResendFor(seconds) {
-    if (resendCooldownTimer) clearInterval(resendCooldownTimer);
-    resendBtn.disabled = true;
-    let remaining = seconds;
-    resendCooldownTimer = setInterval(() => {
-      remaining -= 1;
-      if (remaining <= 0) {
-        resendBtn.disabled = false;
-        clearInterval(resendCooldownTimer);
-      }
-    }, 1000);
-  }
-
-  // Friendly mapping for Firebase errors
-  function friendlyError(err) {
-    if (!err) return 'An unknown error occurred';
-    const code = err.code || err.message || String(err);
-    if (code.indexOf && code.indexOf('auth/invalid-phone-number') !== -1) return 'Invalid phone number.';
-    if (code.indexOf && code.indexOf('auth/too-many-requests') !== -1) return 'Too many attempts. Try again later.';
-    if (code.indexOf && code.indexOf('auth/quota-exceeded') !== -1) return 'SMS quota exceeded for this project.';
-    if (code.indexOf && code.indexOf('auth/billing-not-enabled') !== -1) return 'SMS sending requires enabling billing on your Firebase project or use test phone numbers.';
-    return (err.message && err.message.substring(0,200)) || String(err);
-  }
 
   // Proceed button (user may manually click)
   proceedPayBtn.addEventListener('click', openRazorpayCheckout);
+
+  // Payment function: opens Razorpay Checkout (no backend order created here)
+//   function openRazorpayCheckout() {
+//     // gather form values
+//     const name = document.getElementById('name').value.trim();
+//     const email = document.getElementById('email').value.trim();
+//     const phone = document.getElementById('phone').value.trim();
+
+//     if (!name || !email || !phone) {
+//       alert('Missing user details — please fill the form.');
+//       return;
+//     }
+
+//     const options = {
+//       key: "rzp_test_RL9XyzhjRRghGr", // test key
+//       amount: (window.selectedCourse.price * 100), // amount in paise
+//       currency: "INR",
+//       name: "Student Forge",
+//       description: window.selectedCourse.name,
+//       prefill: { name, email, contact: phone },
+//       // handler: function (response) {
+//       //   // response.razorpay_payment_id, response.razorpay_signature (if order used),
+//       //   // you should verify on server in production
+//       //   console.log('Razorpay response', response);
+//       //   alert('Payment successful! payment id: ' + response.razorpay_payment_id);
+//       //   // Optionally: redirect to success page
+//       //   // window.location.href = 'success.html?payment_id=' + response.razorpay_payment_id;
+//       // },
+//       handler: async function (response) {
+//     console.log('Razorpay response', response);
+
+//     const paymentId = response.razorpay_payment_id;
+//     const timestamp = new Date().toISOString();
+
+//     // Build invoice HTML
+//     const invoiceHTML = `
+//      <p><strong>Course:</strong> ${window.selectedCourse.name}</p>
+//       <p><strong>Price:</strong> ₹${window.selectedCourse.price}</p>
+//       <p><strong>Name:</strong> ${document.getElementById('name').value}</p>
+//       <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
+//       <p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>
+//       <p><strong>Timestamp:</strong> ${timestamp}</p>
+//       <p><strong>Payment ID:</strong> ${paymentId}</p>
+//     `;
+//     document.getElementById('invoiceContent').innerHTML = invoiceHTML;
+//     document.getElementById('invoiceOverlay').classList.remove('hidden');
+
+//     // Close overlay
+//     document.getElementById('closeInvoice').onclick = () => {
+//       document.getElementById('invoiceOverlay').classList.add('hidden');
+//     };
+
+//     // Send to new Google Sheet
+//     try {
+//       const formData = new FormData();
+//       // formData.append('name', document.getElementById('name').value);
+//       // formData.append('phone', document.getElementById('phone').value);
+//       // formData.append('paymentId', paymentId);
+//       // formData.append('timestamp', timestamp);
+//       formData.append('timestamp', timestamp);
+// formData.append('course', window.selectedCourse.name);
+// formData.append('price', window.selectedCourse.price);
+// formData.append('name', document.getElementById('name').value);
+// formData.append('email', document.getElementById('email').value);
+// formData.append('phone', document.getElementById('phone').value);
+// formData.append('paymentId', paymentId);
+
+//       const resp = await fetch('https://script.google.com/macros/s/AKfycbyaG3OIrsRulSa1bA75UexqdylgmOHorOA2wIAI4ApydyoesNOt9R1R_qP_pEg8esXO/exec', {
+//         method: 'POST',
+//         body: formData,
+//         //mode: "no-cors"
+//       });
+
+//       if (resp.status === 200) console.log('✅ Invoice data sent to Google Sheet');
+//       else console.warn('❌ Failed to send to Google Sheet');
+
+//     } catch (err) {
+//       console.error('Error sending to Google Sheet', err);
+//     }
+// },
+// // After setting invoiceContent.innerHTML
+
+
+
+//       theme: { color: "#003153" }
+//     };
+
+//     const rzp = new Razorpay(options);
+//     rzp.open();
+//   }
+  // }-----------------------------------------------------------------------------------------------------
+
 async function openRazorpayCheckout() {
   if (!window.selectedCourse) {
     alert("Select a course first");
@@ -514,7 +464,7 @@ async function openRazorpayCheckout() {
 
   try {
     // Step 1: Request server to create order
-    const orderResp = await fetch('https://sf-backend-c4so.onrender.com/create_order', {
+    const orderResp = await fetch('http://localhost:3000/create_order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ course: window.selectedCourse.name })
@@ -528,7 +478,7 @@ async function openRazorpayCheckout() {
 
     // Step 2: Open Razorpay Checkout
     const options = {
-      key: 'rzp_test_RQUvSCLKCFnWZH', // Test key ok to expose
+      key: 'rzp_test_RL9XyzhjRRghGr', // Test key ok to expose
       amount: orderData.amount,
       currency: orderData.currency,
       name: "Student Forge",
@@ -539,7 +489,7 @@ async function openRazorpayCheckout() {
         console.log("Razorpay response:", response);
 
         // Step 3: Verify payment with server
-        const verifyResp = await fetch('https://sf-backend-c4so.onrender.com/verify_payment', {
+        const verifyResp = await fetch('http://localhost:3000/verify_payment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -551,8 +501,7 @@ async function openRazorpayCheckout() {
         const verifyData = await verifyResp.json();
 
         if (verifyData.valid) {
-          // Show loader
-          document.getElementById('loaderOverlay').classList.remove('hidden');
+          alert('Payment verified successfully!');
 
           // ✅ Existing Google Sheet / OTP flow remains
           // You can now send paymentId + timestamp to Google Sheet
@@ -563,21 +512,19 @@ async function openRazorpayCheckout() {
           formData.append('price', window.selectedCourse.price);
 
           await fetch('https://script.google.com/macros/s/AKfycbyaG3OIrsRulSa1bA75UexqdylgmOHorOA2wIAI4ApydyoesNOt9R1R_qP_pEg8esXO/exec', { method: 'POST', body: formData });
+   
+   
 
-          // Simulate loading for 1.5s (or until invoice is ready)
-          setTimeout(() => {
-            document.getElementById('loaderOverlay').classList.add('hidden');
-            // Show invoice overlay
-            document.getElementById('invoiceContent').innerHTML = `
-              <p><strong>Course:</strong> ${window.selectedCourse.name}</p>
-              <p><strong>Price:</strong> ₹${window.selectedCourse.price}</p>
-              <p><strong>Name:</strong> ${name}</p>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Phone:</strong> ${phone}</p>
-              <p><strong>Payment ID:</strong> ${response.razorpay_payment_id}</p>
-            `;
-            document.getElementById('invoiceOverlay').classList.remove('hidden');
-          }, 1500);
+          // Show invoice overlay
+          document.getElementById('invoiceContent').innerHTML = `
+            <p><strong>Course:</strong> ${window.selectedCourse.name}</p>
+            <p><strong>Price:</strong> ₹${window.selectedCourse.price}</p>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Payment ID:</strong> ${response.razorpay_payment_id}</p>
+          `;
+          document.getElementById('invoiceOverlay').classList.remove('hidden');
 
         } else {
           alert('Payment verification failed. Contact support.');
@@ -621,17 +568,6 @@ function downloadInvoicePDF() {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize reCAPTCHA widget so the rc-anchor-container is visible on page load
-    try {
-      if (typeof initRecaptcha === 'function') {
-        initRecaptcha();
-      } else {
-        console.warn('initRecaptcha not available yet');
-      }
-    } catch (e) {
-      console.warn('Error initializing reCAPTCHA on load', e);
-    }
-
     // Load nav and footer only after whole DOM & Tailwind are ready
     loadHTML("#nav-placeholder", "nav.html");
     loadHTML("#footer-placeholder", "footer.html");
@@ -683,4 +619,3 @@ function loadHTML(selector, file) {
 </script>
 </body>
 </html>
-
