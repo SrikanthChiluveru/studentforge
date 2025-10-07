@@ -2,7 +2,7 @@
 const config = {
     // Development environment
     development: {
-        apiUrl: 'http://localhost:3000',
+        apiUrl: 'https://sf-backend-c4so.onrender.com',
         razorpayKeyId: 'rzp_test_RQUvSCLKCFnWZH'
     },
     
