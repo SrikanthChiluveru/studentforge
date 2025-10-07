@@ -3,7 +3,7 @@ const config = {
     // Development environment
     development: {
         apiUrl: 'http://localhost:3000',
-        razorpayKeyId: 'your_test_key_id'
+        razorpayKeyId: 'rzp_test_RQUvSCLKCFnWZH'
     },
     
     // Production environment
