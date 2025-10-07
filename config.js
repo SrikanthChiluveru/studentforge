@@ -2,8 +2,8 @@
 const config = {
     // Development environment
     development: {
-        apiUrl: 'https://sf-backend-c4so.onrender.com',
-        razorpayKeyId: 'rzp_test_RQUvSCLKCFnWZH'
+        apiUrl: 'http://localhost:3000',
+        razorpayKeyId: 'your_test_key_id'
     },
     
     // Production environment

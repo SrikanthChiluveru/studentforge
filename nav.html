@@ -1,4 +1,16 @@
 <!-- nav.html -->
+<style>
+    /* Minimal nav styles so pages that load this fragment get consistent mobile behavior */
+    .nav-zoom { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s, background 0.25s; }
+    .nav-zoom:hover, .nav-zoom.active { transform: scale(1.15); box-shadow: 0 2px 8px rgba(0,0,0,0.10); color:#fff; }
+    .hamburger { display:flex; flex-direction:column; justify-content:center; width:32px; height:32px; cursor:pointer; z-index:60; }
+    .hamburger span { height:3px; width:100%; background:#fff; margin:4px 0; border-radius:2px; transition:0.3s; }
+    .mobile-nav { position:absolute; top:60px; right:10px; background:#111; border-radius:8px; box-shadow:0 8px 20px rgba(0,0,0,0.25); z-index:55; max-width:85vw; width:auto; overflow:hidden; display:none; }
+    .mobile-nav.open { display:block; }
+    @media (max-width:768px) { .desktop-nav{display:none!important;} .hamburger{display:flex!important;} }
+    @media (min-width:769px) { .mobile-nav{display:none!important;} .hamburger{display:none!important;} }
+</style>
+
 <nav class="bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-between items-center sticky top-0 z-50 relative">
     <!-- Logo -->
     <div class="flex items-center">
@@ -24,7 +36,7 @@
     </ul>
 
     <!-- Mobile Navbar -->
-    <ul class="mobile-nav md:hidden absolute left-0 w-full bg-black text-white text-sm px-4 py-4 hidden" id="mobile-nav">
+    <ul class="mobile-nav md:hidden bg-black text-white text-sm px-4 py-4" id="mobile-nav">
         <li class="mb-2"><a href="index.html" class="nav-zoom block text-center">Home</a></li>
         <li class="mb-2"><a href="learnwithforge.html" class="nav-zoom block text-center">Learn with Forge</a></li>
         <li class="mb-2"><a href="buildwithforge.html" class="nav-zoom block text-center">Build with Forge</a></li>
@@ -43,13 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggle mobile menu
     if(hamburger && mobileNav) {
         hamburger.addEventListener('click', () => {
-            mobileNav.classList.toggle('hidden');
+            mobileNav.classList.toggle('open');
         });
 
         // Close mobile nav when clicking outside
         document.addEventListener('click', e => {
             if (!mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
-                mobileNav.classList.add('hidden');
+                mobileNav.classList.remove('open');
             }
         });
     }
